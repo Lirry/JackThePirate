@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="80" tilewidth="16" tileheight="16" nextobjectid="6">
+ <tileset firstgid="1" name="tileset" tilewidth="16" tileheight="16" spacing="2" margin="1" tilecount="25651" columns="227">
+  <image source="spritesheet_complete.png" width="4096" height="2048"/>
+ </tileset>
+ <layer name="background" width="30" height="80">
+  <data encoding="base64" compression="zlib">
+   eJztzzsOgkAURuGb2LgmCzsrV8CEjfhAVHzsAEViFHSh/gZIDIXFSLA5xZfMzeTmzKSB2dXD8+OceeylHXR99t7dk5zrd18kl7kzm4RmY7lpvkshpTx+6DZmrmosZCmRrOpm091qTmQneznI0VV37b1Y1rJx3/dGQwAAAAAAAAAAAAAAAKA/00E/2q1//fcFlV67ZQ==
+  </data>
+ </layer>
+ <layer name="graphics" width="30" height="80">
+  <data encoding="base64" compression="zlib">
+   eJztwzENAAAIA7Ad+PeDu6ngIW3SBAAAAAAAAAAAuLLj5wXoLViZ
+  </data>
+ </layer>
+ <objectgroup name="ground">
+  <object id="5" x="0" y="1216" width="480" height="64"/>
+ </objectgroup>
+ <objectgroup name="masten"/>
+ <objectgroup name="veren"/>
+</map>
