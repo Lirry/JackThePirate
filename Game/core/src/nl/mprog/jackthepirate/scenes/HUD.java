@@ -12,9 +12,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import nl.mprog.jackthepirate.MainActivity;
 
-/**
- * Created by Netbook on 6-1-2016.
- */
+
 public class HUD {
     public Stage stage;
     private Viewport viewport;
@@ -33,7 +31,7 @@ public class HUD {
         timeCount = 0;
         score = 0;
 
-        viewport = new FitViewport(MainActivity.V_WIDTH /2f, MainActivity.V_HEIGHT /2f, new OrthographicCamera());
+        viewport = new FitViewport(MainActivity.V_WIDTH, MainActivity.V_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, sb);
 
         Table table = new Table();

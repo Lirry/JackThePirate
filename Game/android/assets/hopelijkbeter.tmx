@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="45" height="80" tilewidth="16" tileheight="16" nextobjectid="2">
+ <tileset firstgid="1" name="spritesheet_complete" tilewidth="16" tileheight="16" spacing="2" margin="1" tilecount="25651" columns="227">
+  <image source="spritesheet_complete.png" width="4096" height="2048"/>
+ </tileset>
+ <layer name="Tilelaag 1" width="45" height="80">
+  <data encoding="base64" compression="zlib">
+   eJzt1tsNwjAMheHuwHJIrMYc2YC9+loh4sbxcS7of/ieUOOT2E0pz+Mom3k/dGprZ2cecQbRs/pV83vNlXvbcw6js1k1W5+x5tgz81n7sPbnrR/pi7e+dTeM7nfvGatnufb+K/tUW9e7l5bfrX1FeqvsY2uuaF97ehSdccUset6d3lozMqvvZsWztXUyviWq59Vz11rTe//d3XfqvNead33N+JZkZV6N8r8DZ/x/mXfKS+axmWdnAAAAAAAAAAAAAAAAALJ8XgBmOgERcmtZ
+  </data>
+ </layer>
+ <objectgroup name="grond">
+  <object id="1" x="0" y="1200" width="720" height="80"/>
+ </objectgroup>
+</map>
