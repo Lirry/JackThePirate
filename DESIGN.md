@@ -7,6 +7,7 @@
 
 #### UML
 
+![](doc/UML.png)
 
 ### Sketches
 
@@ -35,8 +36,8 @@ A Short explanation how the game is played.
 
 #### API
 
-The LibGXD libary is implemented into Android Studio to get game graphics and other usefull resources.
+The [LibGXD][lib] libary is implemented into Android Studio to get game graphics and other usefull resources.
 
 
-
+[lib]: <https://libgdx.badlogicgames.com/>
 
