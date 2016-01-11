@@ -10,6 +10,7 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -25,6 +26,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import nl.mprog.jackthepirate.MainActivity;
 import nl.mprog.jackthepirate.scenes.HUD;
 import nl.mprog.jackthepirate.sprites.Jack;
+import sun.applet.Main;
 
 
 public class PlayScreen implements Screen {
@@ -40,37 +42,42 @@ public class PlayScreen implements Screen {
 
     private World world;
     private Box2DDebugRenderer b2dr;
+    private float unitScale = 1 / 16f;
 
-    //private Jack player;
+    private Jack player;
+
+    private float accelX;
 
 
 
     public PlayScreen(MainActivity game){
 
-        // Initiates the game, camera, viewport and HUD
+        // Initiates the game
         this.game = game;
-        gamecam = new OrthographicCamera();
-
-
-        gameport = new FitViewport(MainActivity.V_WIDTH/ MainActivity.PPM, MainActivity.V_HEIGHT/ MainActivity.PPM, new OrthographicCamera());
-
-        hud = new HUD(game.batch);
 
         // loading the map
         mapLoader = new TmxMapLoader();
         map = mapLoader.load("level1revised.tmx");
-        renderer = new OrthogonalTiledMapRenderer(map, 1 / MainActivity.PPM);
+        renderer = new OrthogonalTiledMapRenderer(map, unitScale);
 
+        // loading gamecam
+        gamecam = new OrthographicCamera();
+        gamecam.setToOrtho(false,3 ,10);
+        gamecam.update();
 
-        //initially set our gamecam to be centered correctly at the start of of map
-        gamecam.position.set(gameport.getWorldWidth()/2, gameport.getWorldHeight()/2, 0);
+        // loading hud
+        hud = new HUD(game.batch);
+
 
         // Box2D world (graphics)
         world = new World(new Vector2(0, -10), true);
         b2dr = new Box2DDebugRenderer();
 
         // New Jack
-       // player = new Jack(world);
+        player = new Jack(world);
+
+        // get the z axis for controls
+        accelX = Gdx.input.getAccelerometerX();
 
 
         BodyDef bdef = new BodyDef();
@@ -80,18 +87,20 @@ public class PlayScreen implements Screen {
 
 
         // The ground as an object is defined
-        for(MapObject object: map.getLayers().get(2).getObjects().getByType(RectangleMapObject.class)){
+        for(MapObject object : map.getLayers().get(2).getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
 
             bdef.type = BodyDef.BodyType.StaticBody;
-            bdef.position.set((rect.getX() + rect.getWidth()/2)/MainActivity.PPM, (rect.getY() + rect.getHeight()/2) /MainActivity.PPM);
+            bdef.position.set((rect.getX() + rect.getWidth() / 2) / MainActivity.PPM, (rect.getY() + rect.getHeight() / 2) / MainActivity.PPM);
 
             body = world.createBody(bdef);
 
-            shape.setAsBox(rect.getWidth()/2, rect.getHeight()/2);
+            shape.setAsBox(rect.getWidth() / 2 / MainActivity.PPM, rect.getHeight() / 2 / MainActivity.PPM);
             fdef.shape = shape;
             body.createFixture(fdef);
+
         }
+
 
 //        // The feathers as an object is defined
 //        for(MapObject object: map.getLayers().get(3).getObjects().getByType(RectangleMapObject.class)){
@@ -128,15 +137,15 @@ public class PlayScreen implements Screen {
     }
 
     public void handleInput(float dt){
-//        if (Gdx.input.isTouched()){
-//            player.b2body.applyLinearImpulse(new Vector2(0, 4f), player.b2body.getWorldCenter(), true);
-//        }
-//        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)&& player.b2body.getLinearVelocity().x <= 2){
-//            player.b2body.applyLinearImpulse(new Vector2(0.1f, 0), player.b2body.getWorldCenter(), true);
-//        }
-//        if(Gdx.input.isKeyPressed(Input.Keys.LEFT)&& player.b2body.getLinearVelocity().x <= -2){
-//            player.b2body.applyLinearImpulse(new Vector2(-0.1f, 0), player.b2body.getWorldCenter(), true);
-//        }
+        if (Gdx.input.isTouched()){
+            player.b2body.applyLinearImpulse(new Vector2(0, 4f), player.b2body.getWorldCenter(), true);
+        }
+        if(Gdx.input.getRoll()> 10 && player.b2body.getLinearVelocity().x <= 2){
+            player.b2body.applyLinearImpulse(new Vector2(0.1f, 0), player.b2body.getWorldCenter(), true);
+        }
+        if(Gdx.input.getRoll()< -10 && player.b2body.getLinearVelocity().x <= 2){
+            player.b2body.applyLinearImpulse(new Vector2(-0.1f, 0), player.b2body.getWorldCenter(), true);
+        }
 
     }
 
@@ -145,10 +154,17 @@ public class PlayScreen implements Screen {
 
         world.step(1 / 60f, 6, 2);
 
-        //gamecam.position.x = player.b2body.getPosition().x;
+        player.update(dt);
+
+        renderer.setView(gamecam);
+
+        gamecam.position.x = player.b2body.getPosition().x;
+        if(player.b2body.getPosition().y > 5){
+            gamecam.position.y = player.b2body.getPosition().y;
+        }
 
         gamecam.update();
-        renderer.setView(gamecam);
+
 
     }
 
@@ -161,23 +177,26 @@ public class PlayScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         // render the map
+        renderer.setView(gamecam);
         renderer.render();
 
         // render the box2d
         b2dr.render(world, gamecam.combined);
 
+        game.batch.setProjectionMatrix(gamecam.combined);
+        game.batch.begin();
+        player.draw(game.batch);
+        game.batch.end();
 
 
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
 
-
     }
 
     @Override
     public void resize(int width, int height) {
-            gamecam.viewportWidth = width;
-            gamecam.viewportHeight = height;
+        //gameport.update(width,height);
     }
 
     @Override
@@ -197,6 +216,11 @@ public class PlayScreen implements Screen {
 
     @Override
     public void dispose() {
+        map.dispose();
+        renderer.dispose();
+        world.dispose();
+        b2dr.dispose();
+        hud.dispose();
 
     }
 }

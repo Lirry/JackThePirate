@@ -9,9 +9,9 @@ public class MainActivity extends Game {
 
 	public SpriteBatch batch;
 
-	public static final int V_WIDTH = 400;
-	public static final int V_HEIGHT = 200;
-	public static final float PPM = 100;
+	public static final int V_WIDTH = 720;
+	public static final int V_HEIGHT = 1280;
+	public static final float PPM = 16f;
 
 	public static final String TITLE = "Jack the Pirate";
 
