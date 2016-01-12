@@ -6,21 +6,24 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.TimeUtils;
 
 
-public class MenuScreen implements Screen{
+
+public abstract class SplashScreen implements Screen {
 
     private Sprite splashSprite;
     private SpriteBatch splashBatch;
-
-
+    private long startTime;
 
     @Override
     public void show() {
         splashBatch = new SpriteBatch();
-        Texture texture = new Texture(Gdx.files.internal("jackmedium.png"));
+        Texture texture = new Texture(Gdx.files.internal("jack.png"));
         splashSprite = new Sprite(texture);
         splashSprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        startTime = TimeUtils.millis();
+
     }
 
     @Override
@@ -31,7 +34,6 @@ public class MenuScreen implements Screen{
         splashBatch.begin();
         splashSprite.draw(splashBatch);
         splashBatch.end();
-
     }
 
     @Override
@@ -59,3 +61,6 @@ public class MenuScreen implements Screen{
         splashBatch.dispose();
     }
 }
+
+
+

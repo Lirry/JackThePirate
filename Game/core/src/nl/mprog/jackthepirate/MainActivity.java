@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import nl.mprog.jackthepirate.screens.PlayScreen;
+import nl.mprog.jackthepirate.screens.SplashScreen;
 
 public class MainActivity extends Game {
 
@@ -15,8 +16,10 @@ public class MainActivity extends Game {
 
 	public static final String TITLE = "Jack the Pirate";
 
+
 	@Override
 	public void create () {
+
 		batch = new SpriteBatch();
 		setScreen(new PlayScreen(this));
 	}

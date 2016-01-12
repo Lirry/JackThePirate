@@ -57,7 +57,7 @@ public class PlayScreen implements Screen {
 
         // loading the map
         mapLoader = new TmxMapLoader();
-        map = mapLoader.load("level1revised.tmx");
+        map = mapLoader.load("level1revised2.tmx");
         renderer = new OrthogonalTiledMapRenderer(map, unitScale);
 
         // loading gamecam
@@ -100,22 +100,6 @@ public class PlayScreen implements Screen {
             body.createFixture(fdef);
 
         }
-
-
-//        // The feathers as an object is defined
-//        for(MapObject object: map.getLayers().get(3).getObjects().getByType(RectangleMapObject.class)){
-//            Rectangle rect = ((RectangleMapObject) object).getRectangle();
-//
-//            bdef.type = BodyDef.BodyType.StaticBody;
-//            bdef.position.set((rect.getX() + rect.getWidth()/2)/MainActivity.PPM, (rect.getY() + rect.getHeight()/2) /MainActivity.PPM);
-//
-//            body = world.createBody(bdef);
-//
-//            shape.setAsBox(rect.getWidth()/2, rect.getHeight()/2);
-//            fdef.shape = shape;
-//            body.createFixture(fdef);
-//        }
-//
 //        // The platforms as an object is defined
 //        for(MapObject object: map.getLayers().get(4).getObjects().getByType(RectangleMapObject.class)){
 //            Rectangle rect = ((RectangleMapObject) object).getRectangle();
@@ -140,11 +124,11 @@ public class PlayScreen implements Screen {
         if (Gdx.input.isTouched()){
             player.b2body.applyLinearImpulse(new Vector2(0, 4f), player.b2body.getWorldCenter(), true);
         }
-        if(Gdx.input.getRoll()> 10 && player.b2body.getLinearVelocity().x <= 2){
-            player.b2body.applyLinearImpulse(new Vector2(0.1f, 0), player.b2body.getWorldCenter(), true);
+        if(Gdx.input.getRoll()> 8 && player.b2body.getLinearVelocity().x <= 3 ){
+            player.b2body.applyLinearImpulse(new Vector2(0.19f, 0), player.b2body.getWorldCenter(), true);
         }
-        if(Gdx.input.getRoll()< -10 && player.b2body.getLinearVelocity().x <= 2){
-            player.b2body.applyLinearImpulse(new Vector2(-0.1f, 0), player.b2body.getWorldCenter(), true);
+        if(Gdx.input.getRoll()< -8 && player.b2body.getLinearVelocity().x <= 3){
+            player.b2body.applyLinearImpulse(new Vector2(-0.15f, 0), player.b2body.getWorldCenter(), true);
         }
 
     }

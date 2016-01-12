@@ -32,7 +32,7 @@ public class HUD implements Disposable{
         timeCount = 0;
         score = 0;
 
-        viewport = new FitViewport(MainActivity.V_WIDTH, MainActivity.V_HEIGHT, new OrthographicCamera());
+        viewport = new FitViewport(MainActivity.V_WIDTH/2, MainActivity.V_HEIGHT/2, new OrthographicCamera());
         stage = new Stage(viewport, sb);
 
         Table table = new Table();
@@ -47,7 +47,7 @@ public class HUD implements Disposable{
         table.add(timeLabel).expandX().padTop(10);
         table.add(levelLabel).expandX().padTop(10);
         table.row();
-        table.add(scoreLabel).expandX().padTop(10);
+        table.add(scoreLabel).expandX().padTop(2);
 
         stage.addActor(table);
     }
