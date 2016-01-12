@@ -24,3 +24,6 @@
 - Aangepast hoe je jack kunt besturen door de Accelerometer. Als je je scherm naar rechts tilt, gaat jack naar rechts en vice versa. 
 
 # Dag 7
+
+- Betere HUD, door betere afmetingen. Jack is in hogere kwaliteit zichtbaar. Ook een launcher pictogram toegevoegd. 
+- Jack kan nu niet uit het level ontsnappen, bounadaries in de wereld zijn aangelegd, weliswaar op een lelijke manier.
