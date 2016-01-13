@@ -27,3 +27,9 @@
 
 - Betere HUD, door betere afmetingen. Jack is in hogere kwaliteit zichtbaar. Ook een launcher pictogram toegevoegd. 
 - Jack kan nu niet uit het level ontsnappen, bounadaries in de wereld zijn aangelegd, weliswaar op een lelijke manier.
+
+
+# Dag 8
+
+- HUD displayed nu een timer die loopt! Ook het springen realistischer gemaakt (kan nu een keer springen).
+- begonnen met collision detection, nog niet helemaal klaar maar goed opweg.
