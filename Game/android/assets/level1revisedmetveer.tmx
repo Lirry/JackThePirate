@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="left-down" width="14" height="70" tilewidth="16" tileheight="16" nextobjectid="23">
+ <tileset firstgid="1" name="tileset_gutter" tilewidth="16" tileheight="16" spacing="2" margin="1" tilecount="924" columns="33">
+  <image source="tileset_gutter.png" width="594" height="504"/>
+ </tileset>
+ <layer name="background" width="14" height="70">
+  <data encoding="base64" compression="zlib">
+   eJztzLEJwCAURdGnA2QAtc8O7qoZ1EYF00hC0LS3uPD4cH6yUm5drTTtp9u9T0nFrtUNDofD4XA4HA6Hw+Fwf50zkh8F8+7ix69ujs0qEt5Akw==
+  </data>
+ </layer>
+ <layer name="graphics" width="14" height="70">
+  <data encoding="base64" compression="zlib">
+   eJztwzENAAAMA6Ae9a+5HvYOEhIAAAD4q8cDFeAAOQ==
+  </data>
+ </layer>
+ <objectgroup name="ground">
+  <object id="1" x="0" y="1104" width="224"/>
+  <object id="7" x="208" y="16" width="16" height="1088"/>
+  <object id="8" x="0" y="16" width="16" height="1088"/>
+  <object id="15" x="0" y="16" width="224"/>
+  <object id="18" x="144" y="1072" width="61" height="13"/>
+ </objectgroup>
+ <objectgroup name="feathers">
+  <object id="21" x="80" y="1088" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup name="platform"/>
+</map>

@@ -18,7 +18,6 @@ public class Jack extends Sprite {
     public Body b2body;
     public Texture jackSprite;
 
-    //private boolean right;
 
     public Jack(World world){
         this.world = world;
@@ -26,19 +25,10 @@ public class Jack extends Sprite {
         jackSprite = new Texture("jackmediumhq.png");
         setBounds(0, 0, 16/MainActivity.PPM, 16/MainActivity.PPM);
         setRegion(jackSprite);
-        //right = true;
     }
 
     public void update(float dt) {
         setPosition(b2body.getPosition().x - getWidth() / 2, b2body.getPosition().y - getHeight() / 2);
-//        if (b2body.getLinearVelocity().x < 0 && right) {
-//            setFlip(true, false);
-//            right = false;
-//        }
-//        else if (b2body.getLinearVelocity().x > 0 && !right) {
-//            setFlip(true, false);
-//            right = true;
-//        }
     }
 
 
@@ -48,12 +38,23 @@ public class Jack extends Sprite {
         bdef.type = BodyDef.BodyType.DynamicBody;
         b2body = world.createBody(bdef);
 
-
+        // defining the shape of the sprite to interact with the ground
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
         shape.setRadius(7/ MainActivity.PPM);
 
+        fdef.filter.categoryBits = MainActivity.JACK_BIT;
+        fdef.filter.maskBits = MainActivity.DEFAULT_BIT | MainActivity.FEATHER_BIT;
+
         fdef.shape = shape;
         b2body.createFixture(fdef);
+
+        // defining the fixtures of jack to interact with other objects
+        CircleShape collisionShape = new CircleShape();
+        shape.setRadius(13 / MainActivity.PPM);
+        fdef.shape = collisionShape;
+        fdef.isSensor = true;
+
+        b2body.createFixture(fdef).setUserData("jack");
     }
 }

@@ -24,7 +24,9 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 
 import nl.mprog.jackthepirate.MainActivity;
+import nl.mprog.jackthepirate.Tools.WorldContactlistener;
 import nl.mprog.jackthepirate.scenes.HUD;
+import nl.mprog.jackthepirate.sprites.Feather;
 import nl.mprog.jackthepirate.sprites.Jack;
 import sun.applet.Main;
 
@@ -57,7 +59,7 @@ public class PlayScreen implements Screen {
 
         // loading the map
         mapLoader = new TmxMapLoader();
-        map = mapLoader.load("level1revised2.tmx");
+        map = mapLoader.load("level1revisedmetveer.tmx");
         renderer = new OrthogonalTiledMapRenderer(map, unitScale);
 
         // loading gamecam
@@ -78,6 +80,8 @@ public class PlayScreen implements Screen {
 
         // get the z axis for controls
         accelX = Gdx.input.getAccelerometerX();
+
+        world.setContactListener(new WorldContactlistener());
 
 
         BodyDef bdef = new BodyDef();
@@ -100,19 +104,13 @@ public class PlayScreen implements Screen {
             body.createFixture(fdef);
 
         }
-//        // The platforms as an object is defined
-//        for(MapObject object: map.getLayers().get(4).getObjects().getByType(RectangleMapObject.class)){
-//            Rectangle rect = ((RectangleMapObject) object).getRectangle();
-//
-//            bdef.type = BodyDef.BodyType.StaticBody;
-//            bdef.position.set((rect.getX() + rect.getWidth()/2)/MainActivity.PPM, (rect.getY() + rect.getHeight()/2) /MainActivity.PPM);
-//
-//            body = world.createBody(bdef);
-//
-//            shape.setAsBox(rect.getWidth()/2, rect.getHeight()/2);
-//            fdef.shape = shape;
-//            body.createFixture(fdef);
-//        }
+        // The feathers as an object is defined
+        for(MapObject object: map.getLayers().get(3).getObjects().getByType(RectangleMapObject.class)){
+            Rectangle rect = ((RectangleMapObject) object).getRectangle();
+            bdef.type = BodyDef.BodyType.DynamicBody;
+
+            new Feather(world, map, rect);
+        }
     }
 
     @Override
@@ -121,11 +119,13 @@ public class PlayScreen implements Screen {
     }
 
     public void handleInput(float dt){
-        if (Gdx.input.isTouched()){
-            player.b2body.applyLinearImpulse(new Vector2(0, 4f), player.b2body.getWorldCenter(), true);
+        if (Gdx.input.isTouched() && player.b2body.getLinearVelocity().y == 0){
+            player.b2body.applyLinearImpulse(new Vector2(0, 8f), player.b2body.getWorldCenter(), true);
         }
-        if(Gdx.input.getRoll()> 8 && player.b2body.getLinearVelocity().x <= 3 ){
+        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player.b2body.getLinearVelocity().x <= 3 ){
             player.b2body.applyLinearImpulse(new Vector2(0.19f, 0), player.b2body.getWorldCenter(), true);
+       // if(Gdx.input.getRoll()> 8 && player.b2body.getLinearVelocity().x <= 3 ){
+            //player.b2body.applyLinearImpulse(new Vector2(0.19f, 0), player.b2body.getWorldCenter(), true);
         }
         if(Gdx.input.getRoll()< -8 && player.b2body.getLinearVelocity().x <= 3){
             player.b2body.applyLinearImpulse(new Vector2(-0.15f, 0), player.b2body.getWorldCenter(), true);
@@ -139,6 +139,7 @@ public class PlayScreen implements Screen {
         world.step(1 / 60f, 6, 2);
 
         player.update(dt);
+        hud.update(dt);
 
         renderer.setView(gamecam);
 
