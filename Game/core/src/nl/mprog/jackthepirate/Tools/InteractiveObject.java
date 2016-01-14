@@ -3,6 +3,7 @@ package nl.mprog.jackthepirate.Tools;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -14,7 +15,7 @@ import com.badlogic.gdx.physics.box2d.World;
 
 
 import nl.mprog.jackthepirate.MainActivity;
-import nl.mprog.jackthepirate.screens.PlayScreen;
+
 
 
 public abstract class InteractiveObject {
@@ -23,12 +24,15 @@ public abstract class InteractiveObject {
     protected Rectangle bounds;
     protected Body body;
     protected Fixture fixture;
+    protected boolean Featherpicked;
 
 
     public InteractiveObject(World world, TiledMap map, Rectangle bounds ){
         this.world = world;
         this.map = map;
         this.bounds = bounds;
+
+        Featherpicked = false;
 
         BodyDef bdef = new BodyDef();
         PolygonShape shape = new PolygonShape();
@@ -45,10 +49,16 @@ public abstract class InteractiveObject {
     }
 
     public abstract void onFeatherPickup();
+
     public void setCategoryFilter(short filterBit){
         Filter filter = new Filter();
         filter.categoryBits = filterBit;
         fixture.setFilterData(filter);
+    }
+
+    public TiledMapTileLayer.Cell getCell(){
+        TiledMapTileLayer layer = (TiledMapTileLayer) map.getLayers().get(1);
+        return layer.getCell((int) (body.getPosition().x * MainActivity.PPM / 16), (int) (body.getPosition().y * MainActivity.PPM / 16));
     }
 
 

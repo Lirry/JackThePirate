@@ -8,7 +8,6 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 
 
-
 public class WorldContactlistener implements ContactListener {
 
     @Override
@@ -16,16 +15,15 @@ public class WorldContactlistener implements ContactListener {
         Fixture fixA = contact.getFixtureA();
         Fixture fixB = contact.getFixtureB();
 
-        if(fixA.getUserData() == "feather" || fixB.getUserData() == "feather"){
+        if(fixA.getUserData() == "jack" || fixB.getUserData() == "jack"){
             Gdx.app.log("Working till here", "");
-            Fixture playerCol = fixA.getUserData() == "feather" ? fixA : fixB;
+            Fixture playerCol = fixA.getUserData() == "jack" ? fixA : fixB;
             Fixture feather = playerCol == fixA ? fixB : fixA;
-            Gdx.app.log("fixA", fixA.getUserData().toString());
-
-//            if (playerCol.getUserData() == "feather"){
-//                Gdx.app.log("Working till here2", "");
-//                ((InteractiveObject) feather.getUserData()).onFeatherPickup();
-//            }
+            Gdx.app.log("FixB", fixB.getUserData().toString());
+            if (feather.getUserData() instanceof InteractiveObject){
+                Gdx.app.log("Working till here", "second if loop");
+                ((InteractiveObject) feather.getUserData()).onFeatherPickup();
+            }
         }
     }
 

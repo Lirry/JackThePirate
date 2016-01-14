@@ -48,6 +48,7 @@ public class Jack extends Sprite {
 
         fdef.shape = shape;
         b2body.createFixture(fdef);
+        b2body.createFixture(fdef).setUserData("jack");
 
         // defining the fixtures of jack to interact with other objects
         CircleShape collisionShape = new CircleShape();
@@ -55,6 +56,5 @@ public class Jack extends Sprite {
         fdef.shape = collisionShape;
         fdef.isSensor = true;
 
-        b2body.createFixture(fdef).setUserData("jack");
     }
 }

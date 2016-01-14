@@ -38,7 +38,7 @@ public class HUD implements Disposable{
         table.top();
         table.setFillParent(true);
 
-        scoreLabel = new Label(String.format("%06d", worldTimer), new Label.LabelStyle(new BitmapFont(), Color.RED));
+        scoreLabel = new Label(String.format("%05d", worldTimer), new Label.LabelStyle(new BitmapFont(), Color.RED));
         timeLabel = new Label("TIME", new Label.LabelStyle(new BitmapFont(), Color.RED));
         levelLabel = new Label("level 1", new Label.LabelStyle(new BitmapFont(), Color.RED));
 
@@ -51,11 +51,11 @@ public class HUD implements Disposable{
     }
 
     public void update(float dt){
-        timeCount += dt;
+        timeCount += dt*10;
         if (timeCount >= 1){
             worldTimer++;
-            scoreLabel.setText(String.format("%06d", worldTimer));
-            timeCount = 0;
+            scoreLabel.setText(String.format("%05d", worldTimer));
+            timeCount -= 1;
         }
 
 

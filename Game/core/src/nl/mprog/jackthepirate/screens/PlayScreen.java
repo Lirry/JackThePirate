@@ -10,7 +10,6 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -19,8 +18,6 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 
 
 import nl.mprog.jackthepirate.MainActivity;
@@ -28,14 +25,12 @@ import nl.mprog.jackthepirate.Tools.WorldContactlistener;
 import nl.mprog.jackthepirate.scenes.HUD;
 import nl.mprog.jackthepirate.sprites.Feather;
 import nl.mprog.jackthepirate.sprites.Jack;
-import sun.applet.Main;
 
 
 public class PlayScreen implements Screen {
 
     private MainActivity game;
     private OrthographicCamera gamecam;
-    private Viewport gameport;
     private HUD hud;
 
     private TmxMapLoader mapLoader;
@@ -47,6 +42,7 @@ public class PlayScreen implements Screen {
     private float unitScale = 1 / 16f;
 
     private Jack player;
+
 
     private float accelX;
 
@@ -81,13 +77,16 @@ public class PlayScreen implements Screen {
         // get the z axis for controls
         accelX = Gdx.input.getAccelerometerX();
 
+        // Setting contactlistener for collision
         world.setContactListener(new WorldContactlistener());
 
 
+        // Bodydef for ground
         BodyDef bdef = new BodyDef();
         PolygonShape shape = new PolygonShape();
         FixtureDef fdef = new FixtureDef();
         Body body;
+
 
 
         // The ground as an object is defined
@@ -111,6 +110,27 @@ public class PlayScreen implements Screen {
 
             new Feather(world, map, rect);
         }
+
+        // The platforms as an object is defined
+        for(MapObject object : map.getLayers().get(4).getObjects().getByType(RectangleMapObject.class)) {
+        Rectangle rect = ((RectangleMapObject) object).getRectangle();
+
+        bdef.type = BodyDef.BodyType.KinematicBody;
+        bdef.position.set((rect.getX() + rect.getWidth() / 2) / MainActivity.PPM, (rect.getY() + rect.getHeight() / 2) / MainActivity.PPM);
+
+        body = world.createBody(bdef);
+
+        shape.setAsBox(rect.getWidth() / 2 / MainActivity.PPM, rect.getHeight() / 2 / MainActivity.PPM);
+        fdef.shape = shape;
+        body.createFixture(fdef);
+
+        if (MainActivity.featherpicked = true){
+            body.setLinearVelocity(new Vector2(0, 0.1f));
+        }
+
+    }
+
+
     }
 
     @Override
@@ -122,15 +142,14 @@ public class PlayScreen implements Screen {
         if (Gdx.input.isTouched() && player.b2body.getLinearVelocity().y == 0){
             player.b2body.applyLinearImpulse(new Vector2(0, 8f), player.b2body.getWorldCenter(), true);
         }
-        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player.b2body.getLinearVelocity().x <= 3 ){
-            player.b2body.applyLinearImpulse(new Vector2(0.19f, 0), player.b2body.getWorldCenter(), true);
-       // if(Gdx.input.getRoll()> 8 && player.b2body.getLinearVelocity().x <= 3 ){
-            //player.b2body.applyLinearImpulse(new Vector2(0.19f, 0), player.b2body.getWorldCenter(), true);
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
+//        if(Gdx.input.getRoll()> 8 && player.b2body.getLinearVelocity().x <= 3 ){
+            player.b2body.applyLinearImpulse(new Vector2(0.15f, 0), player.b2body.getWorldCenter(), true);
         }
-        if(Gdx.input.getRoll()< -8 && player.b2body.getLinearVelocity().x <= 3){
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)){
+//        if(Gdx.input.getRoll()< -8 && player.b2body.getLinearVelocity().x >= -3){
             player.b2body.applyLinearImpulse(new Vector2(-0.15f, 0), player.b2body.getWorldCenter(), true);
         }
-
     }
 
     public void update(float dt){
