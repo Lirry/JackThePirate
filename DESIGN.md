@@ -3,7 +3,7 @@
 ### MVP
 
   - Playing platform 2D game
-  - Saving Highscores
+  - Scrolling through menuscreen/howto/game
 
 #### UML
 
