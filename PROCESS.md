@@ -33,3 +33,13 @@
 
 - HUD displayed nu een timer die loopt! Ook het springen realistischer gemaakt (kan nu een keer springen).
 - begonnen met collision detection, nog niet helemaal klaar maar goed opweg.
+
+# Dag 9
+
+- Collision detection gelukt. TiledMap veranderd voor sprite. Plaform beweegt nog niet
+- Opzet gemaakt voor screenmanager.
+
+# Dag 10
+
+- Platform beweegt! 
+- Meerdere screens kunnen bereikt worden.
