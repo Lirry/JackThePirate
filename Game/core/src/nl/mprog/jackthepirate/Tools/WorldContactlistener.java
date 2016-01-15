@@ -16,10 +16,8 @@ public class WorldContactlistener implements ContactListener {
         Fixture fixB = contact.getFixtureB();
 
         if(fixA.getUserData() == "jack" || fixB.getUserData() == "jack"){
-            Gdx.app.log("Working till here", "");
             Fixture playerCol = fixA.getUserData() == "jack" ? fixA : fixB;
             Fixture feather = playerCol == fixA ? fixB : fixA;
-            Gdx.app.log("FixB", fixB.getUserData().toString());
             if (feather.getUserData() instanceof InteractiveObject){
                 Gdx.app.log("Working till here", "second if loop");
                 ((InteractiveObject) feather.getUserData()).onFeatherPickup();

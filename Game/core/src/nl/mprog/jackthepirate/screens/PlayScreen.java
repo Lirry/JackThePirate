@@ -20,14 +20,19 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
 
+import javax.sound.midi.MidiChannel;
+
 import nl.mprog.jackthepirate.MainActivity;
+import nl.mprog.jackthepirate.Tools.AbstractScreen;
+import nl.mprog.jackthepirate.Tools.InteractiveObject;
 import nl.mprog.jackthepirate.Tools.WorldContactlistener;
 import nl.mprog.jackthepirate.scenes.HUD;
 import nl.mprog.jackthepirate.sprites.Feather;
 import nl.mprog.jackthepirate.sprites.Jack;
+import nl.mprog.jackthepirate.sprites.Platform;
 
 
-public class PlayScreen implements Screen {
+public class PlayScreen extends AbstractScreen implements Screen {
 
     private MainActivity game;
     private OrthographicCamera gamecam;
@@ -42,6 +47,7 @@ public class PlayScreen implements Screen {
     private float unitScale = 1 / 16f;
 
     private Jack player;
+    private Platform platform;
 
 
     private float accelX;
@@ -60,7 +66,7 @@ public class PlayScreen implements Screen {
 
         // loading gamecam
         gamecam = new OrthographicCamera();
-        gamecam.setToOrtho(false,3 ,10);
+        gamecam.setToOrtho(false,3 ,12);
         gamecam.update();
 
         // loading hud
@@ -73,6 +79,7 @@ public class PlayScreen implements Screen {
 
         // New Jack
         player = new Jack(world);
+        platform = new Platform(world);
 
         // get the z axis for controls
         accelX = Gdx.input.getAccelerometerX();
@@ -111,26 +118,6 @@ public class PlayScreen implements Screen {
             new Feather(world, map, rect);
         }
 
-        // The platforms as an object is defined
-        for(MapObject object : map.getLayers().get(4).getObjects().getByType(RectangleMapObject.class)) {
-        Rectangle rect = ((RectangleMapObject) object).getRectangle();
-
-        bdef.type = BodyDef.BodyType.KinematicBody;
-        bdef.position.set((rect.getX() + rect.getWidth() / 2) / MainActivity.PPM, (rect.getY() + rect.getHeight() / 2) / MainActivity.PPM);
-
-        body = world.createBody(bdef);
-
-        shape.setAsBox(rect.getWidth() / 2 / MainActivity.PPM, rect.getHeight() / 2 / MainActivity.PPM);
-        fdef.shape = shape;
-        body.createFixture(fdef);
-
-        if (MainActivity.featherpicked = true){
-            body.setLinearVelocity(new Vector2(0, 0.1f));
-        }
-
-    }
-
-
     }
 
     @Override
@@ -150,7 +137,21 @@ public class PlayScreen implements Screen {
 //        if(Gdx.input.getRoll()< -8 && player.b2body.getLinearVelocity().x >= -3){
             player.b2body.applyLinearImpulse(new Vector2(-0.15f, 0), player.b2body.getWorldCenter(), true);
         }
+        if (MainActivity.featherpicked != 10){
+            if (platform.b2body.getPosition().y > 5) {
+                platform.b2body.setLinearVelocity(0, -0.6f);
+                Gdx.app.log("going down", "down");
+            }
+            else if (platform.b2body.getPosition().y <= 3){
+                platform.b2body.setLinearVelocity(0, 0.6f);
+                Gdx.app.log("going up", "up");
+            }
+        }
+
     }
+
+
+
 
     public void update(float dt){
         handleInput(dt);
@@ -158,6 +159,7 @@ public class PlayScreen implements Screen {
         world.step(1 / 60f, 6, 2);
 
         player.update(dt);
+        platform.update(dt);
         hud.update(dt);
 
         renderer.setView(gamecam);
@@ -169,6 +171,11 @@ public class PlayScreen implements Screen {
 
         gamecam.update();
 
+
+    }
+
+    @Override
+    public void buildStage() {
 
     }
 
@@ -190,6 +197,7 @@ public class PlayScreen implements Screen {
         game.batch.setProjectionMatrix(gamecam.combined);
         game.batch.begin();
         player.draw(game.batch);
+        platform.draw(game.batch);
         game.batch.end();
 
 

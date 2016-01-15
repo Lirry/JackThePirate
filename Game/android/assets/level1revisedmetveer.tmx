@@ -5,7 +5,7 @@
  </tileset>
  <layer name="background" width="14" height="70">
   <data encoding="base64" compression="zlib">
-   eJztzbEJwCAURdGnAziAps/Umjkym00UTCMKxrS3uPD4cPjRSql0lWK3R7d3n5Ky/VY1OBwOh8PhcDgcDofD/XXeSKF1mLm7F/65zR5BOEEU
+   eJztyzEOABAQRNGJA7iGUy/ncDaNVWhEgUL1i59MJnkWpOwVz5a9++ZOklq4axgcDofD4XA4HA6Hw+F+uXrg4mMd/EdEmA==
   </data>
  </layer>
  <layer name="graphics" width="14" height="70">
