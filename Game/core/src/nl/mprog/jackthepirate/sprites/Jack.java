@@ -23,7 +23,7 @@ public class Jack extends Sprite {
         this.world = world;
         defineJack();
         jackSprite = new Texture("jackmediumhq.png");
-        setBounds(0, 0, 16/MainActivity.PPM, 16/MainActivity.PPM);
+        setBounds(0, 0, 16/MainActivity.PPM, 20/MainActivity.PPM);
         setRegion(jackSprite);
     }
 
@@ -41,7 +41,7 @@ public class Jack extends Sprite {
         // defining the shape of the sprite to interact with the ground
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
-        shape.setRadius(7/ MainActivity.PPM);
+        shape.setRadius(8/ MainActivity.PPM);
 
         fdef.filter.categoryBits = MainActivity.JACK_BIT;
         fdef.filter.maskBits = MainActivity.DEFAULT_BIT | MainActivity.FEATHER_BIT;

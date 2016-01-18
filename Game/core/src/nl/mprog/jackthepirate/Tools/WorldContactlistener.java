@@ -7,6 +7,9 @@ import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 
+import nl.mprog.jackthepirate.MainActivity;
+
+
 
 public class WorldContactlistener implements ContactListener {
 
@@ -22,6 +25,9 @@ public class WorldContactlistener implements ContactListener {
                 Gdx.app.log("Working till here", "second if loop");
                 ((InteractiveObject) feather.getUserData()).onFeatherPickup();
             }
+        }
+        if (fixA.getUserData() == "platform" || fixB.getUserData() == "platform") {
+            MainActivity.onPlatform = true;
         }
     }
 

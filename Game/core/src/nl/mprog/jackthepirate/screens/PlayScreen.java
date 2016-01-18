@@ -18,6 +18,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.actions.DelayAction;
 
 
 import javax.sound.midi.MidiChannel;
@@ -51,6 +52,7 @@ public class PlayScreen extends AbstractScreen implements Screen {
 
 
     private float accelX;
+    boolean flip;
 
 
 
@@ -86,6 +88,9 @@ public class PlayScreen extends AbstractScreen implements Screen {
 
         // Setting contactlistener for collision
         world.setContactListener(new WorldContactlistener());
+
+        // Setting flip for jack
+        flip = player.isFlipX();
 
 
         // Bodydef for ground
@@ -126,16 +131,27 @@ public class PlayScreen extends AbstractScreen implements Screen {
     }
 
     public void handleInput(float dt){
-        if (Gdx.input.isTouched() && player.b2body.getLinearVelocity().y == 0){
+        if (Gdx.input.isTouched() && player.b2body.getLinearVelocity().y == 0 || Gdx.input.isTouched() && MainActivity.onPlatform){
             player.b2body.applyLinearImpulse(new Vector2(0, 8f), player.b2body.getWorldCenter(), true);
+            MainActivity.onPlatform = false;
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
-//        if(Gdx.input.getRoll()> 8 && player.b2body.getLinearVelocity().x <= 3 ){
+//        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
+        if(Gdx.input.getRoll()> 8 && player.b2body.getLinearVelocity().x <= 3 ){
             player.b2body.applyLinearImpulse(new Vector2(0.15f, 0), player.b2body.getWorldCenter(), true);
+            if (!flip) {
+//                player.rotate(-5);
+//                player.setOrigin(player.getWidth()/2, player.getHeight()/2);
+                player.setFlip(true, false);
+                flip = true;
+            }
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-//        if(Gdx.input.getRoll()< -8 && player.b2body.getLinearVelocity().x >= -3){
+//        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)){
+        if(Gdx.input.getRoll()< -8 && player.b2body.getLinearVelocity().x >= -3){
             player.b2body.applyLinearImpulse(new Vector2(-0.15f, 0), player.b2body.getWorldCenter(), true);
+            if (flip) {
+                player.setFlip(false, false);
+                flip = false;
+            }
         }
         if (MainActivity.featherpicked != 10){
             if (platform.b2body.getPosition().y > 5) {
