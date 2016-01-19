@@ -76,7 +76,7 @@ public class HowToScreen extends AbstractScreen {
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);// Make the stage consume events
 
-        texture = new Texture("backgroundmenu.png");
+        texture = new Texture("backgroundmenunieuw.png");
         TextureRegion textureRegion = new TextureRegion(texture,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
         Image background = new Image(textureRegion);
         stage.addActor(background);
@@ -93,8 +93,8 @@ public class HowToScreen extends AbstractScreen {
         backButton.setPosition(Gdx.graphics.getWidth() / 2 - Gdx.graphics.getWidth() / 4, 100);
         stage.addActor(backButton);
 
-        TextField howto = new TextField("This is how you play the game, please insert text here", skin);
-        stage.addActor(howto);
+        //TextField howto = new TextField("This is how you play the game, please insert text here", skin);
+        //stage.addActor(howto);
     }
 
     @Override

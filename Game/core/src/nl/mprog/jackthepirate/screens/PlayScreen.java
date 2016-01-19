@@ -31,6 +31,7 @@ import nl.mprog.jackthepirate.scenes.HUD;
 import nl.mprog.jackthepirate.sprites.Feather;
 import nl.mprog.jackthepirate.sprites.Jack;
 import nl.mprog.jackthepirate.sprites.Platform;
+import nl.mprog.jackthepirate.sprites.PlatformGreen;
 
 
 public class PlayScreen extends AbstractScreen implements Screen {
@@ -49,6 +50,7 @@ public class PlayScreen extends AbstractScreen implements Screen {
 
     private Jack player;
     private Platform platform;
+    private PlatformGreen platform_green;
 
 
     private float accelX;
@@ -82,6 +84,7 @@ public class PlayScreen extends AbstractScreen implements Screen {
         // New Jack
         player = new Jack(world);
         platform = new Platform(world);
+        platform_green = new PlatformGreen(world);
 
         // get the z axis for controls
         accelX = Gdx.input.getAccelerometerX();
@@ -132,12 +135,12 @@ public class PlayScreen extends AbstractScreen implements Screen {
 
     public void handleInput(float dt){
         if (Gdx.input.isTouched() && player.b2body.getLinearVelocity().y == 0 || Gdx.input.isTouched() && MainActivity.onPlatform){
-            player.b2body.applyLinearImpulse(new Vector2(0, 8f), player.b2body.getWorldCenter(), true);
+            player.b2body.applyLinearImpulse(new Vector2(0, 9f), player.b2body.getWorldCenter(), true);
             MainActivity.onPlatform = false;
         }
 //        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
         if(Gdx.input.getRoll()> 8 && player.b2body.getLinearVelocity().x <= 3 ){
-            player.b2body.applyLinearImpulse(new Vector2(0.15f, 0), player.b2body.getWorldCenter(), true);
+            player.b2body.applyLinearImpulse(new Vector2(0.1f, 0), player.b2body.getWorldCenter(), true);
             if (!flip) {
 //                player.rotate(-5);
 //                player.setOrigin(player.getWidth()/2, player.getHeight()/2);
@@ -147,20 +150,26 @@ public class PlayScreen extends AbstractScreen implements Screen {
         }
 //        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)){
         if(Gdx.input.getRoll()< -8 && player.b2body.getLinearVelocity().x >= -3){
-            player.b2body.applyLinearImpulse(new Vector2(-0.15f, 0), player.b2body.getWorldCenter(), true);
+            player.b2body.applyLinearImpulse(new Vector2(-0.1f, 0), player.b2body.getWorldCenter(), true);
             if (flip) {
                 player.setFlip(false, false);
                 flip = false;
             }
         }
         if (MainActivity.featherpicked != 10){
-            if (platform.b2body.getPosition().y > 5) {
-                platform.b2body.setLinearVelocity(0, -0.6f);
+            if (platform.b2body.getPosition().y > 10) {
+                platform.b2body.setLinearVelocity(0, -0.9f);
                 Gdx.app.log("going down", "down");
             }
-            else if (platform.b2body.getPosition().y <= 3){
-                platform.b2body.setLinearVelocity(0, 0.6f);
+            else if (platform.b2body.getPosition().y <= 8){
+                platform.b2body.setLinearVelocity(0, 0.9f);
                 Gdx.app.log("going up", "up");
+            }
+            if (platform_green.b2body.getPosition().x > 11){
+                platform_green.b2body.setLinearVelocity(-0.8f, 0);
+            }
+            else if (platform_green.b2body.getPosition().x <= 4){
+                platform_green.b2body.setLinearVelocity(0.8f, 0);
             }
         }
 
@@ -176,6 +185,7 @@ public class PlayScreen extends AbstractScreen implements Screen {
 
         player.update(dt);
         platform.update(dt);
+        platform_green.update(dt);
         hud.update(dt);
 
         renderer.setView(gamecam);
@@ -214,6 +224,7 @@ public class PlayScreen extends AbstractScreen implements Screen {
         game.batch.begin();
         player.draw(game.batch);
         platform.draw(game.batch);
+        platform_green.draw(game.batch);
         game.batch.end();
 
 

@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="left-down" width="14" height="70" tilewidth="16" tileheight="16" nextobjectid="24">
+<map version="1.0" orientation="orthogonal" renderorder="left-down" width="14" height="70" tilewidth="16" tileheight="16" nextobjectid="37">
  <tileset firstgid="1" name="tileset_gutter" tilewidth="16" tileheight="16" spacing="2" margin="1" tilecount="924" columns="33">
   <image source="tileset_gutter.png" width="594" height="504"/>
  </tileset>
+ <tileset firstgid="925" name="generic_platformer_tiles" tilewidth="16" tileheight="16" spacing="2" margin="1" tilecount="2352" columns="56">
+  <image source="generic_platformer_tiles.png" width="1024" height="768"/>
+ </tileset>
  <layer name="background" width="14" height="70">
   <data encoding="base64" compression="zlib">
-   eJztyzEOABAQRNGJA7iGUy/ncDaNVWhEgUL1i59MJnkWpOwVz5a9++ZOklq4axgcDofD4XA4HA6Hw+F+uXrg4mMd/EdEmA==
+   eJzt1EEOQDAQBdBREWxcw7GwcgpHwS2sHQXXsDEWTahWtQlmMYufTCQvHV+jFQAdpse0yqx7JuccAFbhlt2wY8eOHTt/N0TnUN2TijN1ReH7UenzuBP38o2zve/be6r/kb96mQKAGbME35w3Jn697G6K/c5zsap7anVO5sk907m7rmzOZKUrcJ8SU0XXmdJ9Yad3jXALFVendhcaklmyAW7GGzU=
   </data>
  </layer>
  <layer name="graphics" width="14" height="70">
   <data encoding="base64" compression="zlib">
-   eJztyrEJAAAIwDAFn/T/RzxBcJQEujUCAAAAfurcnzo2NjcAkw==
+   eJxjYBgFo2AUjIJRMApGwSgYBSMdyLCRpy8EqC8UiMNI1N8DVN8LxH1A3E+m3aSAAxz45bexomJ0vYT047OXEr2U2DmU3EwI4IsfYvSNAlQQA4ynaA4IHYtER+Ngw8AUDtLwYNG3i4mwPmYyMQCq2TZr
   </data>
  </layer>
  <objectgroup name="ground">
@@ -18,11 +21,12 @@
   <object id="7" x="208" y="16" width="16" height="1088"/>
   <object id="8" x="0" y="16" width="16" height="1088"/>
   <object id="15" x="0" y="16" width="224"/>
+  <object id="34" x="16" y="912" width="112" height="16"/>
  </objectgroup>
  <objectgroup name="feathers">
   <object id="21" x="80" y="1088" width="16" height="16"/>
  </objectgroup>
- <objectgroup name="platform">
+ <objectgroup name="platform" visible="0">
   <object id="23" x="144" y="1072" width="64" height="16"/>
  </objectgroup>
 </map>

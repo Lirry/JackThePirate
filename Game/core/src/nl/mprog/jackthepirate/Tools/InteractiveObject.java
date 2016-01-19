@@ -35,7 +35,7 @@ public abstract class InteractiveObject {
         PolygonShape shape = new PolygonShape();
         FixtureDef fdef = new FixtureDef();
 
-        bdef.type = BodyDef.BodyType.StaticBody;
+        bdef.type = BodyDef.BodyType.DynamicBody;
         bdef.position.set((bounds.getX() + bounds.getWidth() / 2) / MainActivity.PPM, (bounds.getY() + bounds.getHeight() / 2) / MainActivity.PPM);
 
         body = world.createBody(bdef);

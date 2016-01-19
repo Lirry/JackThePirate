@@ -71,7 +71,7 @@ public class HighscoreScreen extends AbstractScreen {
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);// Make the stage consume events
 
-        texture = new Texture("backgroundmenu.png");
+        texture = new Texture("backgroundmenunieuw.png");
         TextureRegion textureRegion = new TextureRegion(texture,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
         Image background = new Image(textureRegion);
         stage.addActor(background);

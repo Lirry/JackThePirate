@@ -11,16 +11,16 @@ import com.badlogic.gdx.physics.box2d.World;
 import nl.mprog.jackthepirate.MainActivity;
 
 
-public class Platform extends Sprite {
+public class PlatformGreen extends Sprite {
     public World world;
     public Body b2body;
     public Texture platformSprite;
 
 
-    public Platform(World world){
+    public PlatformGreen(World world){
         this.world = world;
         definePlatform();
-        platformSprite = new Texture("platform_red.png");
+        platformSprite = new Texture("path4160.png");
         setBounds(0, 0, 40/ MainActivity.PPM, 12/MainActivity.PPM);
         setRegion(platformSprite);
     }
@@ -35,14 +35,14 @@ public class Platform extends Sprite {
         PolygonShape shape = new PolygonShape();
         FixtureDef fdef = new FixtureDef();
 
-        bdef.position.set(11, 8);
+        bdef.position.set(4, 4);
         bdef.type = BodyDef.BodyType.KinematicBody;
         shape.setAsBox(1.25f, 0.45f);
         b2body = world.createBody(bdef);
 
         // defining the shape of the sprite to interact with the ground
         fdef.shape = shape;
-        b2body.createFixture(fdef).setUserData("platform");
+        b2body.createFixture(fdef).setUserData("platform_green");
         b2body.createFixture(fdef);
     }
 }
