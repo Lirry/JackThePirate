@@ -1,6 +1,7 @@
 package nl.mprog.jackthepirate.Tools;
 
 import nl.mprog.jackthepirate.MainActivity;
+import nl.mprog.jackthepirate.screens.GameOverScreen;
 import nl.mprog.jackthepirate.screens.HighscoreScreen;
 import nl.mprog.jackthepirate.screens.HowToScreen;
 import nl.mprog.jackthepirate.screens.MenuScreen;
@@ -22,6 +23,11 @@ public enum ScreenEnum {
     HIGHSCORES {
         public AbstractScreen getScreen() {
             return new HighscoreScreen();
+        }
+    },
+    GAME_OVER {
+        public AbstractScreen getScreen() {
+            return new GameOverScreen();
         }
     },
     GAME{

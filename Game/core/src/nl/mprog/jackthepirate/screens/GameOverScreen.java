@@ -20,7 +20,7 @@ import nl.mprog.jackthepirate.Tools.ScreenEnum;
 import nl.mprog.jackthepirate.Tools.ScreenManager;
 
 
-public class HowToScreen extends AbstractScreen {
+public class GameOverScreen extends AbstractScreen {
     public Stage stage;
     public Skin skin;
     private Texture texture;
@@ -54,7 +54,7 @@ public class HowToScreen extends AbstractScreen {
         skin.add("default", textButtonStyle);
     }
 
-    public HowToScreen() {
+    public GameOverScreen() {
         super();
     }
 
@@ -84,23 +84,28 @@ public class HowToScreen extends AbstractScreen {
 
 
         createBasicSkin();
-        TextButton backButton = new TextButton("Get Jack to the top of the level as fast as possible!" + "\n" +
-                " Avoid the spikes, they kill you." + "\n" +
-                " Roll your screen to the left or right to move, tap to jump!", skin);
+        TextButton backButton = new TextButton("TRY AGAIN?", skin);
+        backButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                ScreenManager.getInstance().showScreen(ScreenEnum.GAME);
+            }
+        });
+        TextButton menuButton = new TextButton("MAIN MENU", skin);
         backButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 ScreenManager.getInstance().showScreen(ScreenEnum.MAIN_MENU);
             }
         });
-        backButton.setPosition(1, 600);
         stage.addActor(backButton);
+        stage.addActor(menuButton);
 
     }
 
     @Override
     public void resize(int width, int height) {
-}
+    }
 
     @Override
     public void hide() {

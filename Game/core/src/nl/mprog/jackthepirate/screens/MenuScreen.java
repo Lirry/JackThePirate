@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -15,10 +14,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.utils.viewport.FillViewport;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 
 import nl.mprog.jackthepirate.MainActivity;
 import nl.mprog.jackthepirate.Tools.AbstractScreen;
@@ -38,18 +33,19 @@ public class MenuScreen extends AbstractScreen{
     public void createBasicSkin(){
         //Create a font
         BitmapFont font = new BitmapFont();
+        font.getData().setScale(3, 3);
         skin = new Skin();
         skin.add("default", font);
 
         //Create a texture
-        Pixmap pixmap = new Pixmap(100, 50, Pixmap.Format.RGB888);
+        Pixmap pixmap = new Pixmap(100, 50, Pixmap.Format.RGBA4444);
         pixmap.setColor(Color.WHITE);
         pixmap.fill();
         skin.add("background", new Texture(pixmap));
 
         //Create a button style
         TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
-        textButtonStyle.up = skin.newDrawable("background", Color.BROWN);
+        textButtonStyle.up = skin.newDrawable("background", Color.FIREBRICK);
         textButtonStyle.down = skin.newDrawable("background", Color.DARK_GRAY);
         textButtonStyle.checked = skin.newDrawable("background", Color.DARK_GRAY);
         textButtonStyle.over = skin.newDrawable("background", Color.LIGHT_GRAY);
@@ -79,7 +75,7 @@ public class MenuScreen extends AbstractScreen{
         table.setFillParent(true);
 
         createBasicSkin();
-        TextButton newGameButton = new TextButton("NEW GAME", skin);
+        TextButton newGameButton = new TextButton("  NEW GAME  ", skin);
         newGameButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -105,16 +101,13 @@ public class MenuScreen extends AbstractScreen{
         howToButton.setPosition(Gdx.graphics.getWidth()/2 - Gdx.graphics.getWidth()/8,(Gdx.graphics.getHeight()/2) -75);
         highScoresButton.setPosition(Gdx.graphics.getWidth() / 2 - Gdx.graphics.getWidth()/8,(Gdx.graphics.getHeight()/2) -150);
 
-        table.add(newGameButton).growX();
+        table.add(newGameButton);
         table.row();
         table.add(howToButton);
         table.row();
         table.add(highScoresButton);
 
         stage.addActor(table);
-//        stage.addActor(newGameButton);
-//        stage.addActor(howToButton);
-//        stage.addActor(highScoresButton);
 
 
 

@@ -29,11 +29,14 @@ public class WorldContactlistener implements ContactListener {
         if (fixA.getUserData() == "platform" || fixB.getUserData() == "platform") {
             MainActivity.onPlatform = true;
         }
+        if (fixA.getUserData() == "spike" || fixB.getUserData() == "spike"){
+            Gdx.app.log("DEAD BABY", "DEAD");
+        }
+
     }
 
     @Override
     public void endContact(Contact contact) {
-        Gdx.app.log("End Contact", "");
     }
 
     @Override

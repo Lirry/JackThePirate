@@ -3,6 +3,7 @@ package nl.mprog.jackthepirate.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.MapObject;
@@ -18,20 +19,20 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.scenes.scene2d.actions.DelayAction;
 
-
-import javax.sound.midi.MidiChannel;
 
 import nl.mprog.jackthepirate.MainActivity;
 import nl.mprog.jackthepirate.Tools.AbstractScreen;
-import nl.mprog.jackthepirate.Tools.InteractiveObject;
+import nl.mprog.jackthepirate.Tools.ScreenEnum;
+import nl.mprog.jackthepirate.Tools.ScreenManager;
 import nl.mprog.jackthepirate.Tools.WorldContactlistener;
 import nl.mprog.jackthepirate.scenes.HUD;
 import nl.mprog.jackthepirate.sprites.Feather;
 import nl.mprog.jackthepirate.sprites.Jack;
 import nl.mprog.jackthepirate.sprites.Platform;
+import nl.mprog.jackthepirate.sprites.PlatformBlue;
 import nl.mprog.jackthepirate.sprites.PlatformGreen;
+import nl.mprog.jackthepirate.sprites.Spike;
 
 
 public class PlayScreen extends AbstractScreen implements Screen {
@@ -51,6 +52,8 @@ public class PlayScreen extends AbstractScreen implements Screen {
     private Jack player;
     private Platform platform;
     private PlatformGreen platform_green;
+    private PlatformBlue platform_blue;
+    private Spike spike;
 
 
     private float accelX;
@@ -70,7 +73,7 @@ public class PlayScreen extends AbstractScreen implements Screen {
 
         // loading gamecam
         gamecam = new OrthographicCamera();
-        gamecam.setToOrtho(false,3 ,12);
+        gamecam.setToOrtho(false, 3, 12);
         gamecam.update();
 
         // loading hud
@@ -85,6 +88,8 @@ public class PlayScreen extends AbstractScreen implements Screen {
         player = new Jack(world);
         platform = new Platform(world);
         platform_green = new PlatformGreen(world);
+        platform_blue = new PlatformBlue(world);
+        spike = new Spike(world);
 
         // get the z axis for controls
         accelX = Gdx.input.getAccelerometerX();
@@ -138,8 +143,8 @@ public class PlayScreen extends AbstractScreen implements Screen {
             player.b2body.applyLinearImpulse(new Vector2(0, 9f), player.b2body.getWorldCenter(), true);
             MainActivity.onPlatform = false;
         }
-//        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
-        if(Gdx.input.getRoll()> 8 && player.b2body.getLinearVelocity().x <= 3 ){
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
+//        if(Gdx.input.getRoll()> 8 && player.b2body.getLinearVelocity().x <= 3 ){
             player.b2body.applyLinearImpulse(new Vector2(0.1f, 0), player.b2body.getWorldCenter(), true);
             if (!flip) {
 //                player.rotate(-5);
@@ -148,15 +153,15 @@ public class PlayScreen extends AbstractScreen implements Screen {
                 flip = true;
             }
         }
-//        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-        if(Gdx.input.getRoll()< -8 && player.b2body.getLinearVelocity().x >= -3){
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)){
+//        if(Gdx.input.getRoll()< -8 && player.b2body.getLinearVelocity().x >= -3){
             player.b2body.applyLinearImpulse(new Vector2(-0.1f, 0), player.b2body.getWorldCenter(), true);
             if (flip) {
                 player.setFlip(false, false);
                 flip = false;
             }
         }
-        if (MainActivity.featherpicked != 10){
+        if (MainActivity.featherpicked == 1){
             if (platform.b2body.getPosition().y > 10) {
                 platform.b2body.setLinearVelocity(0, -0.9f);
                 Gdx.app.log("going down", "down");
@@ -171,7 +176,13 @@ public class PlayScreen extends AbstractScreen implements Screen {
             else if (platform_green.b2body.getPosition().x <= 4){
                 platform_green.b2body.setLinearVelocity(0.8f, 0);
             }
-        }
+            if (platform_blue.b2body.getPosition().x <= 4){
+               platform_blue.b2body.setLinearVelocity(0.8f, 0);
+            }
+            else if(platform_blue.b2body.getPosition().x > 10){
+               platform_blue.b2body.setLinearVelocity(-0.8f, 0);
+            }
+       }
 
     }
 
@@ -186,6 +197,8 @@ public class PlayScreen extends AbstractScreen implements Screen {
         player.update(dt);
         platform.update(dt);
         platform_green.update(dt);
+        platform_blue.update(dt);
+        spike.update(dt);
         hud.update(dt);
 
         renderer.setView(gamecam);
@@ -225,6 +238,8 @@ public class PlayScreen extends AbstractScreen implements Screen {
         player.draw(game.batch);
         platform.draw(game.batch);
         platform_green.draw(game.batch);
+        platform_blue.draw(game.batch);
+        spike.draw(game.batch);
         game.batch.end();
 
 

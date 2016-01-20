@@ -46,6 +46,8 @@ public abstract class InteractiveObject {
     }
 
     public abstract void onFeatherPickup();
+    public abstract void onFeatherPickupBlue();
+    public abstract void onSpikeHit();
 
     public void setCategoryFilter(short filterBit){
         Filter filter = new Filter();

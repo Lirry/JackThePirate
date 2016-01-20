@@ -21,6 +21,16 @@ public class Feather extends InteractiveObject {
         Gdx.app.log("Feather", "Collision YEAAAAAH");
         setCategoryFilter(MainActivity.DESTROYED_BIT);
         getCell().setTile(null);
-        MainActivity.featherpicked++;
+        MainActivity.featherpicked = 1;
+    }
+
+    @Override
+    public void onFeatherPickupBlue() {
+
+    }
+
+    @Override
+    public void onSpikeHit() {
+
     }
 }

@@ -44,7 +44,7 @@ public class Jack extends Sprite {
         shape.setRadius(8/ MainActivity.PPM);
 
         fdef.filter.categoryBits = MainActivity.JACK_BIT;
-        fdef.filter.maskBits = MainActivity.DEFAULT_BIT | MainActivity.FEATHER_BIT;
+        fdef.filter.maskBits = MainActivity.DEFAULT_BIT | MainActivity.FEATHER_BIT | MainActivity.SPIKE_BIT;
 
         fdef.shape = shape;
         b2body.createFixture(fdef);
