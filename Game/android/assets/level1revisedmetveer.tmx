@@ -11,12 +11,12 @@
  </tileset>
  <layer name="background" width="14" height="70">
   <data encoding="base64" compression="zlib">
-   eJyby8TAMA+I5wPxXDQ2NjEYW52BgeE3E2kYpGdU36i+UX2j+kb1ka9vGysqHqzuHCz6cIXVYIi/wRKeyG4aDRf66CPkX1q7E70cIaQvHqgmAYgTWVHZgyU8idV3gIO8cAHpe8BOnn2k6EXXR8i9+PQh6yeUzrDpw2c3cjyQohemD1d6iifgzgeMDAwPgfgR4+BOZ8NdXy0TaXiw6EvnxBQ7w4HAID3MODAfAQwA2uQZgg==
+   eJyby8TAMA+I5wPxXDQ2NjEYW52BgUGEhTQM0jOqb1TfqL5RfaP6yNe3jRUVD1Z3DhZ9uMJqMMTfYAlPZDeNhgt99BHyL63diV6OENIXD1STAMSJrKjswRKexOo7wEFeuID0PWAnzz5S9KLrI+RefPqQ9RNKZ9j04bMbpu83E2l6Yfpwpad4Au58wMjA8BCIHzEO7nQ23PXVMpGGB4u+aE5MsTMcCAzSw4wD8xHAAAPdqcw=
   </data>
  </layer>
  <layer name="graphics" width="14" height="70">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjIJRMFTAbyZUPArwg8EWVoMx/gaDewaDG+gJBjId4LNbho08M0OA+kLZSPdLD1BPLxD3AXE/mXaTAgi5D1fYoIsTG2/kxjO19BFrBr31kQsoDZdRgApiOBgYojkgdCwSHY2DDQNTOEjDg0VfNCOm2DxOBAaBX3bkYQCg/30w
+   eJxjYBgFo2AUjIJRMFSACAsqHgX4wWALK/T4o8Rd1DZjIMOIEjdQ4vaB1gvCv5ko00+JXnT9MmzE6UHXGwLUF8pGul96gHp6gbgPiPtx2E0KiGdlYEgA4kRWVDayP/ABXP4j5H9SzaOXPmLNoIY+UNyDMC3LEmqEyyhAgBgOBoZoDggdi0RH42DDwBQO0vBg0RfNiSk2jxOCoxkhen7ZkYcB4u1Ebw==
   </data>
  </layer>
  <objectgroup name="ground">
@@ -25,9 +25,9 @@
   <object id="8" x="0" y="16" width="16" height="1088"/>
   <object id="15" x="0" y="16" width="224"/>
   <object id="34" x="16" y="912" width="112" height="16"/>
-  <object id="49" x="113.333" y="736" width="93.3333" height="14.6667"/>
+  <object id="49" x="113.333" y="784" width="93.3333" height="14.6667"/>
  </objectgroup>
  <objectgroup name="feathers">
-  <object id="21" x="80" y="1088" width="16" height="16"/>
+  <object id="21" x="191.5" y="1088" width="16" height="16"/>
  </objectgroup>
 </map>

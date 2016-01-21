@@ -4,27 +4,24 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.World;
 
+import com.badlogic.gdx.physics.box2d.World;
 
 import nl.mprog.jackthepirate.MainActivity;
 
-
-
-public class Spike extends Sprite {
+public class Parrot extends Sprite {
     public World world;
     public Body b2body;
-    public Texture spikeSprite;
+    public Texture parrotSprite;
 
-
-    public Spike(World world){
+    public Parrot(World world){
         this.world = world;
-        defineSpike();
-        spikeSprite = new Texture("beterespike.png");
-        setBounds(0, 0, 16/ MainActivity.PPM, 16/MainActivity.PPM);
-        setRegion(spikeSprite);
+        defineParrot();
+        parrotSprite = new Texture("parrot.png");
+        setBounds(0, 0, 15/ MainActivity.PPM, 16/MainActivity.PPM);
+        setRegion(parrotSprite);
     }
 
     public void update(float dt) {
@@ -32,26 +29,20 @@ public class Spike extends Sprite {
     }
 
 
-    public void defineSpike(){
+    public void defineParrot(){
         BodyDef bdef = new BodyDef();
-        PolygonShape shape = new PolygonShape();
         FixtureDef fdef = new FixtureDef();
+        CircleShape shape = new CircleShape();
 
-        float verticles[] = new float[]{
-                0, -0.5f,
-                0.2f, -0.5f,
-                0.05f, 0.5f
-        };
-
-
-        bdef.position.set(11, 1.5f);
-        bdef.type = BodyDef.BodyType.StaticBody;
-        shape.set(verticles);
+        bdef.position.set(12, 21.5f);
+        bdef.type = BodyDef.BodyType.KinematicBody;
         b2body = world.createBody(bdef);
+
+        shape.setRadius(8/ MainActivity.PPM);
 
         // defining the shape of the sprite to interact with the ground
         fdef.shape = shape;
-        b2body.createFixture(fdef).setUserData("spike");
+        b2body.createFixture(fdef).setUserData("parrot");
         b2body.createFixture(fdef);
     }
 }

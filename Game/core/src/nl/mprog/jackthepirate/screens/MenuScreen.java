@@ -27,7 +27,7 @@ import nl.mprog.jackthepirate.Tools.ScreenManager;
 public class MenuScreen extends AbstractScreen{
 
     public Stage stage;
-    public Skin skin;
+    public static Skin skin;
     private Texture texture;
 
     public void createBasicSkin(){

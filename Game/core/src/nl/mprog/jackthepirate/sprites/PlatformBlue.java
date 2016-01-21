@@ -35,7 +35,7 @@ public class PlatformBlue extends Sprite {
         PolygonShape shape = new PolygonShape();
         FixtureDef fdef = new FixtureDef();
 
-        bdef.position.set(4, 17);
+        bdef.position.set(4, 16);
         bdef.type = BodyDef.BodyType.KinematicBody;
         shape.setAsBox(1.25f, 0.45f);
         b2body = world.createBody(bdef);

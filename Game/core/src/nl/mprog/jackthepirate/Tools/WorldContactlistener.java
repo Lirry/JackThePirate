@@ -8,7 +8,8 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 
 import nl.mprog.jackthepirate.MainActivity;
-
+import nl.mprog.jackthepirate.screens.GameOverScreen;
+import nl.mprog.jackthepirate.screens.PlayScreen;
 
 
 public class WorldContactlistener implements ContactListener {
@@ -31,6 +32,10 @@ public class WorldContactlistener implements ContactListener {
         }
         if (fixA.getUserData() == "spike" || fixB.getUserData() == "spike"){
             Gdx.app.log("DEAD BABY", "DEAD");
+            MainActivity.dead = true;
+        }
+        if (fixA.getUserData() == "parrot" || fixB.getUserData() == "parrot"){
+            Gdx.app.log("YOU WIN", "NOSCOPE360");
         }
 
     }

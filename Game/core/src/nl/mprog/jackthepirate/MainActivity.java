@@ -17,6 +17,7 @@ public class MainActivity extends Game {
 
 	public static int featherpicked = 3;
 	public static boolean onPlatform = false;
+	public static boolean dead = false;
 
 	public static final short DEFAULT_BIT = 1;
 	public static final short JACK_BIT = 2;
@@ -30,7 +31,6 @@ public class MainActivity extends Game {
 
 	@Override
 	public void create () {
-
 		ScreenManager.getInstance().initialize(this);
 		ScreenManager.getInstance().showScreen(ScreenEnum.MAIN_MENU);
 
@@ -40,6 +40,7 @@ public class MainActivity extends Game {
 		batch = new SpriteBatch();
 		ScreenManager.getInstance().showScreen(ScreenEnum.GAME);
 	}
+
 
 
 	@Override

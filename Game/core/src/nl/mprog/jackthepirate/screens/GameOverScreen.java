@@ -1,6 +1,7 @@
 package nl.mprog.jackthepirate.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -11,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -20,7 +22,7 @@ import nl.mprog.jackthepirate.Tools.ScreenEnum;
 import nl.mprog.jackthepirate.Tools.ScreenManager;
 
 
-public class GameOverScreen extends AbstractScreen {
+public class GameOverScreen extends AbstractScreen{
     public Stage stage;
     public Skin skin;
     private Texture texture;
@@ -34,7 +36,7 @@ public class GameOverScreen extends AbstractScreen {
 
 
         //Create a texture
-        Pixmap pixmap = new Pixmap(Gdx.graphics.getWidth()/2,200, Pixmap.Format.RGBA8888);
+        Pixmap pixmap = new Pixmap(Gdx.graphics.getWidth(),100, Pixmap.Format.RGBA8888);
         pixmap.setColor(Color.WHITE);
         pixmap.fill();
         skin.add("background", new Texture(pixmap));
@@ -60,7 +62,6 @@ public class GameOverScreen extends AbstractScreen {
 
     @Override
     public void buildStage() {
-
     }
 
     @Override
@@ -77,29 +78,35 @@ public class GameOverScreen extends AbstractScreen {
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);// Make the stage consume events
 
-        texture = new Texture("backgroundmenunieuw.png");
+
+        texture = new Texture("gameoverbackground.png");
         TextureRegion textureRegion = new TextureRegion(texture,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
         Image background = new Image(textureRegion);
         stage.addActor(background);
 
+        Table table = new Table();
+        table.top();
+        table.setFillParent(true);
+
 
         createBasicSkin();
-        TextButton backButton = new TextButton("TRY AGAIN?", skin);
-        backButton.addListener(new ChangeListener() {
+        TextButton tryAgainkButton = new TextButton("TRY AGAIN?", skin);
+        tryAgainkButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 ScreenManager.getInstance().showScreen(ScreenEnum.GAME);
             }
         });
-        TextButton menuButton = new TextButton("MAIN MENU", skin);
-        backButton.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                ScreenManager.getInstance().showScreen(ScreenEnum.MAIN_MENU);
-            }
-        });
-        stage.addActor(backButton);
-        stage.addActor(menuButton);
+//        TextButton menuButton = new TextButton("MAIN MENU", skin);
+//        menuButton.addListener(new ChangeListener() {
+//            @Override
+//            public void changed(ChangeEvent event, Actor actor) {
+//                ScreenManager.getInstance().showScreen(ScreenEnum.MAIN_MENU);
+//            }
+//        });
+        table.addActor(tryAgainkButton);
+//        table.addActor(menuButton);
+        stage.addActor(table);
 
     }
 
@@ -117,6 +124,11 @@ public class GameOverScreen extends AbstractScreen {
 
     @Override
     public void resume() {
+    }
+
+    @Override
+    public void dispose() {
+        stage.dispose();
     }
 
 }

@@ -6,12 +6,15 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import nl.mprog.jackthepirate.MainActivity;
+import nl.mprog.jackthepirate.screens.MenuScreen;
 
 
 public class HUD implements Disposable{
@@ -31,6 +34,9 @@ public class HUD implements Disposable{
         timeCount = 0;
         score = 0;
 
+        Skin skin = MenuScreen.skin;
+        skin.getFont("default").getData().setScale(1,1);
+
         viewport = new FitViewport(MainActivity.V_WIDTH/2, MainActivity.V_HEIGHT/2, new OrthographicCamera());
         stage = new Stage(viewport, sb);
 
@@ -38,14 +44,16 @@ public class HUD implements Disposable{
         table.top();
         table.setFillParent(true);
 
+        TextButton pause_button = new TextButton("PAUSE", MenuScreen.skin);
+
         scoreLabel = new Label(String.format("%05d", worldTimer), new Label.LabelStyle(new BitmapFont(), Color.RED));
         timeLabel = new Label("TIME", new Label.LabelStyle(new BitmapFont(), Color.RED));
         levelLabel = new Label("level 1", new Label.LabelStyle(new BitmapFont(), Color.RED));
 
         table.add(timeLabel).expandX().padTop(10);
-        table.add(levelLabel).expandX().padTop(10);
+        table.add(pause_button).expandX().padTop(10);
         table.row();
-        table.add(scoreLabel).expandX().padTop(2);
+        table.add(scoreLabel).expandX();
 
         stage.addActor(table);
     }
