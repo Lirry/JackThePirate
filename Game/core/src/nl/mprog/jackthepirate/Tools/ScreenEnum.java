@@ -6,6 +6,7 @@ import nl.mprog.jackthepirate.screens.HighscoreScreen;
 import nl.mprog.jackthepirate.screens.HowToScreen;
 import nl.mprog.jackthepirate.screens.MenuScreen;
 import nl.mprog.jackthepirate.screens.PlayScreen;
+import nl.mprog.jackthepirate.screens.WinScreen;
 
 
 public enum ScreenEnum {
@@ -28,6 +29,11 @@ public enum ScreenEnum {
     GAME_OVER {
         public AbstractScreen getScreen() {
             return new GameOverScreen();
+        }
+    },
+    WIN {
+        public AbstractScreen getScreen() {
+            return new WinScreen();
         }
     },
     GAME{

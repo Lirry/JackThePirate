@@ -41,7 +41,7 @@ public class Jack extends Sprite {
         // defining the shape of the sprite to interact with the ground
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
-        shape.setRadius(8/ MainActivity.PPM);
+        shape.setRadius(8.8f/ MainActivity.PPM);
 
         fdef.filter.categoryBits = MainActivity.JACK_BIT;
         fdef.filter.maskBits = MainActivity.DEFAULT_BIT | MainActivity.FEATHER_BIT | MainActivity.SPIKE_BIT;

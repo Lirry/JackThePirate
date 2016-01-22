@@ -16,7 +16,7 @@
  </layer>
  <layer name="graphics" width="14" height="70">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjIJRMFSACAsqHgX4wWALK/T4o8Rd1DZjIMOIEjdQ4vaB1gvCv5ko00+JXnT9MmzE6UHXGwLUF8pGul96gHp6gbgPiPtx2E0KiGdlYEgA4kRWVDayP/ABXP4j5H9SzaOXPmLNoIY+UNyDMC3LEmqEyyhAgBgOBoZoDggdi0RH42DDwBQO0vBg0RfNiSk2jxOCoxkhen7ZkYcB4u1Ebw==
+   eJxjYBgFo2AUjIJRMFSACAsqHgX4wWALK/T4o8Rd1DZjIMOIEjdQ4vaB1gvCc1kp00+JXnT9MmzE6UHXGwLUFwrEv5lIc0sPUE8vEPcBcT8Ou0kBoLDEhpH9gQ3EA9UkAHEiKyobWR85eZfc/EUtfcSaQQ19sLCmZVlCjXAZBQgQw8HAEM0BoWOR6GgcbBiYwkEaHiz6ojkxxeZxQnA0I0TPLzvyMAB810bK
   </data>
  </layer>
  <objectgroup name="ground">
@@ -25,7 +25,7 @@
   <object id="8" x="0" y="16" width="16" height="1088"/>
   <object id="15" x="0" y="16" width="224"/>
   <object id="34" x="16" y="912" width="112" height="16"/>
-  <object id="49" x="113.333" y="784" width="93.3333" height="14.6667"/>
+  <object id="49" x="113.333" y="801" width="93.3333" height="14.6667"/>
  </objectgroup>
  <objectgroup name="feathers">
   <object id="21" x="191.5" y="1088" width="16" height="16"/>

@@ -20,7 +20,7 @@ public class Parrot extends Sprite {
         this.world = world;
         defineParrot();
         parrotSprite = new Texture("parrot.png");
-        setBounds(0, 0, 15/ MainActivity.PPM, 16/MainActivity.PPM);
+        setBounds(0, 0, 14/ MainActivity.PPM, 16/MainActivity.PPM);
         setRegion(parrotSprite);
     }
 
@@ -34,7 +34,7 @@ public class Parrot extends Sprite {
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
 
-        bdef.position.set(12, 21.5f);
+        bdef.position.set(12.5f, 20.5f);
         bdef.type = BodyDef.BodyType.KinematicBody;
         b2body = world.createBody(bdef);
 

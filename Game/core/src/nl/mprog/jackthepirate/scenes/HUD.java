@@ -21,7 +21,7 @@ public class HUD implements Disposable{
     public Stage stage;
     private Viewport viewport;
 
-    private Integer worldTimer;
+    public static Integer worldTimer;
     private float timeCount;
     private Integer score;
 

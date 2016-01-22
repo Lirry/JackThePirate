@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
@@ -18,32 +19,26 @@ import nl.mprog.jackthepirate.MainActivity;
 import nl.mprog.jackthepirate.Tools.AbstractScreen;
 import nl.mprog.jackthepirate.Tools.ScreenEnum;
 import nl.mprog.jackthepirate.Tools.ScreenManager;
-import nl.mprog.jackthepirate.scenes.HUD;
 
 
-public class HighscoreScreen extends AbstractScreen {
+// The skin-building method comes from http://www.tempoparalelo.com/blog/?p=76
 
 
+public class WinScreen extends AbstractScreen{
 
     public Stage stage;
-    public Skin skin;
+    public static Skin skin;
     private Texture texture;
-
-    public HighscoreScreen() {
-        super();
-    }
-
 
     public void createBasicSkin(){
         //Create a font
         BitmapFont font = new BitmapFont();
-        font.getData().setScale(1,1);
+        font.getData().setScale(3, 3);
         skin = new Skin();
         skin.add("default", font);
 
-
         //Create a texture
-        Pixmap pixmap = new Pixmap(Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/12, Pixmap.Format.RGBA8888);
+        Pixmap pixmap = new Pixmap(100, 50, Pixmap.Format.RGBA4444);
         pixmap.setColor(Color.WHITE);
         pixmap.fill();
         skin.add("background", new Texture(pixmap));
@@ -56,62 +51,103 @@ public class HighscoreScreen extends AbstractScreen {
         textButtonStyle.over = skin.newDrawable("background", Color.LIGHT_GRAY);
         textButtonStyle.font = skin.getFont("default");
         skin.add("default", textButtonStyle);
+
     }
+
+
+
+    @Override
+    public void show() {
+
+        stage = new Stage();
+        Gdx.input.setInputProcessor(stage);// Make the stage consume events
+
+
+        texture = new Texture("winbackground.png");
+        TextureRegion textureRegion = new TextureRegion(texture,Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        textureRegion.setRegionWidth(720);
+        textureRegion.setRegionHeight(1280);
+        Image background = new Image(textureRegion);
+        stage.addActor(background);
+
+        Table table = new Table();
+        table.center();
+        table.setFillParent(true);
+
+        createBasicSkin();
+        TextButton newGameButton = new TextButton("  NEW GAME ", skin);
+        newGameButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                MainActivity.newGame();
+            }
+        });
+        TextButton howToButton = new TextButton("MAIN MENU", skin);
+        howToButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                ScreenManager.getInstance().showScreen(ScreenEnum.MAIN_MENU);
+            }
+        });
+        newGameButton.setPosition(Gdx.graphics.getWidth()/2 - Gdx.graphics.getWidth()/8 , Gdx.graphics.getHeight()/2);
+        howToButton.setPosition(Gdx.graphics.getWidth()/2 - Gdx.graphics.getWidth()/8,(Gdx.graphics.getHeight()/2) -75);
+
+        table.add(newGameButton);
+        table.row();
+        table.add(howToButton);
+
+
+        stage.addActor(table);
+
+
+
+    }
+
+
+    public WinScreen() {
+        super();
+    }
+
 
     @Override
     public void buildStage() {
-
     }
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0, 0, 1, 0);
+        Gdx.gl.glClearColor(0, 1, 1, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
 
         stage.act();
         stage.draw();
+
+
     }
-
-    @Override
-    public void show() {
-        stage = new Stage();
-        Gdx.input.setInputProcessor(stage);// Make the stage consume events
-
-        texture = new Texture("backgroundmenunieuw.png");
-        TextureRegion textureRegion = new TextureRegion(texture,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
-        Image background = new Image(textureRegion);
-        stage.addActor(background);
-
-
-        createBasicSkin();
-            TextButton backButton = new TextButton(MainActivity.prefs.getString("highscore"), skin);
-            backButton.addListener(new ChangeListener() {
-                @Override
-                public void changed(ChangeEvent event, Actor actor) {
-                    ScreenManager.getInstance().showScreen(ScreenEnum.MAIN_MENU);
-                }
-            });
-            backButton.setPosition(Gdx.graphics.getWidth()/2 , Gdx.graphics.getHeight()/2);
-            stage.addActor(backButton);
-        }
 
     @Override
     public void resize(int width, int height) {
-        super.resize(width, height);
-    }
+        stage.getViewport().update(width, height, true);
 
-    @Override
-    public void hide() {
-        super.hide();
     }
 
     @Override
     public void pause() {
-        super.pause();
+
     }
 
     @Override
     public void resume() {
-        super.resume();
+
+    }
+
+    @Override
+    public void hide() {
+
+    }
+
+    @Override
+    public void dispose() {
+        stage.dispose();
     }
 }

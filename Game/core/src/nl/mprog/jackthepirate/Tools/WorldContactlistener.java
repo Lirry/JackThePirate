@@ -8,12 +8,15 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 
 import nl.mprog.jackthepirate.MainActivity;
-import nl.mprog.jackthepirate.screens.GameOverScreen;
 import nl.mprog.jackthepirate.screens.PlayScreen;
 
 
 public class WorldContactlistener implements ContactListener {
 
+    /**
+     *
+     * Comment Section
+     */
     @Override
     public void beginContact(Contact contact) {
         Fixture fixA = contact.getFixtureA();
@@ -35,7 +38,9 @@ public class WorldContactlistener implements ContactListener {
             MainActivity.dead = true;
         }
         if (fixA.getUserData() == "parrot" || fixB.getUserData() == "parrot"){
-            Gdx.app.log("YOU WIN", "NOSCOPE360");
+            PlayScreen.music = Gdx.audio.newMusic(Gdx.files.internal("C:\\Users\\Netbook\\Desktop\\Programeerproject X\\Game\\android\\assets\\cartoon_parrot_squawk.mp3"));
+            PlayScreen.music.play();
+            MainActivity.win = true;
         }
 
     }

@@ -2,7 +2,11 @@ package nl.mprog.jackthepirate.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.loaders.MusicLoader;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.MapObject;
@@ -18,7 +22,11 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.actions.DelayAction;
 
+
+import java.util.Locale;
+import java.util.logging.Handler;
 
 import nl.mprog.jackthepirate.MainActivity;
 import nl.mprog.jackthepirate.Tools.AbstractScreen;
@@ -37,7 +45,7 @@ import nl.mprog.jackthepirate.sprites.Spike;
 
 public class PlayScreen extends AbstractScreen implements Screen {
 
-    public static MainActivity game;
+    public MainActivity game;
     private OrthographicCamera gamecam;
     private HUD hud;
 
@@ -46,7 +54,7 @@ public class PlayScreen extends AbstractScreen implements Screen {
     private OrthogonalTiledMapRenderer renderer;
 
     private World world;
-    private Box2DDebugRenderer b2dr;
+   // private Box2DDebugRenderer b2dr;
     private float unitScale = 1 / 16f;
 
     private Jack player;
@@ -57,12 +65,17 @@ public class PlayScreen extends AbstractScreen implements Screen {
     private Parrot parrot;
 
 
+
     private float accelX;
     boolean flip;
+    public static Music music;
 
 
 
     public PlayScreen(MainActivity game){
+
+        music = Gdx.audio.newMusic(Gdx.files.internal("C:\\Users\\Netbook\\Desktop\\Programeerproject X\\Game\\android\\assets\\pirates.mp3"));
+        music.play();
 
         // Initiates the game
         this.game = game;
@@ -78,12 +91,13 @@ public class PlayScreen extends AbstractScreen implements Screen {
         gamecam.update();
 
         // loading hud
-        hud = new HUD(game.batch);
+        hud = new HUD(MainActivity.batch);
+
 
 
         // Box2D world (graphics)
         world = new World(new Vector2(0, -10), true);
-        b2dr = new Box2DDebugRenderer();
+       // b2dr = new Box2DDebugRenderer();
 
         // New Jack
         player = new Jack(world);
@@ -92,6 +106,7 @@ public class PlayScreen extends AbstractScreen implements Screen {
         platform_blue = new PlatformBlue(world);
         spike = new Spike(world);
         parrot = new Parrot(world);
+
 
         // get the z axis for controls
         accelX = Gdx.input.getAccelerometerX();
@@ -143,6 +158,9 @@ public class PlayScreen extends AbstractScreen implements Screen {
 
     public void handleInput(float dt){
         if (Gdx.input.isTouched() && player.b2body.getLinearVelocity().y == 0 || Gdx.input.isTouched() && MainActivity.onPlatform){
+            Music music = Gdx.audio.newMusic(Gdx.files.internal("C:\\Users\\Netbook\\Desktop\\Programeerproject X\\Game\\android\\assets\\popsound.wav"));
+            music.setPosition(0.3f);
+            music.play();
             player.b2body.applyLinearImpulse(new Vector2(0, 9f), player.b2body.getWorldCenter(), true);
             MainActivity.onPlatform = false;
         }
@@ -165,11 +183,9 @@ public class PlayScreen extends AbstractScreen implements Screen {
         if (MainActivity.featherpicked == 1){
             if (platform.b2body.getPosition().y > 10) {
                 platform.b2body.setLinearVelocity(0, -0.9f);
-                Gdx.app.log("going down", "down");
             }
             else if (platform.b2body.getPosition().y <= 8){
                 platform.b2body.setLinearVelocity(0, 0.9f);
-                Gdx.app.log("going up", "up");
             }
             if (platform_green.b2body.getPosition().x > 11){
                 platform_green.b2body.setLinearVelocity(-0.8f, 0);
@@ -178,7 +194,7 @@ public class PlayScreen extends AbstractScreen implements Screen {
                 platform_green.b2body.setLinearVelocity(0.8f, 0);
             }
             if (platform_blue.b2body.getPosition().x <= 4){
-               platform_blue.b2body.setLinearVelocity(0.8f, 0);
+                platform_blue.b2body.setLinearVelocity(0.8f, 0);
             }
             else if(platform_blue.b2body.getPosition().x > 10){
                platform_blue.b2body.setLinearVelocity(-0.8f, 0);
@@ -236,27 +252,37 @@ public class PlayScreen extends AbstractScreen implements Screen {
         renderer.render();
 
         // render the box2d
-        b2dr.render(world, gamecam.combined);
+        //b2dr.render(world, gamecam.combined);
 
-        game.batch.setProjectionMatrix(gamecam.combined);
-        game.batch.begin();
-        player.draw(game.batch);
-        platform.draw(game.batch);
-        platform_green.draw(game.batch);
-        platform_blue.draw(game.batch);
-        spike.draw(game.batch);
-        parrot.draw(game.batch);
-        game.batch.end();
-
-
+        MainActivity.batch.setProjectionMatrix(gamecam.combined);
+        MainActivity.batch.begin();
+        player.draw(MainActivity.batch);
+        platform.draw(MainActivity.batch);
+        platform_green.draw(MainActivity.batch);
+        platform_blue.draw(MainActivity.batch);
+        spike.draw(MainActivity.batch);
+        parrot.draw(MainActivity.batch);
+        MainActivity.batch.end();
 
 
-        game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
+
+
+        MainActivity.batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
 
+
         if (MainActivity.dead){
-            ScreenManager.getInstance().showScreen(ScreenEnum.GAME_OVER);
             MainActivity.dead = false;
+            ScreenManager.getInstance().showScreen(ScreenEnum.GAME_OVER);
+        }
+        if (MainActivity.win){
+            music = Gdx.audio.newMusic(Gdx.files.internal("C:\\Users\\Netbook\\Desktop\\Programeerproject X\\Game\\android\\assets\\cartoon_parrot_squawk.mp3"));
+            music.play();
+            MainActivity.prefs.putInteger("highscore", HUD.worldTimer);
+            MainActivity.prefs.flush();
+            Gdx.app.log("highscore", MainActivity.prefs.getString("highscore"));
+            ScreenManager.getInstance().showScreen(ScreenEnum.WIN);
+            MainActivity.win = false;
         }
 
     }
@@ -285,8 +311,8 @@ public class PlayScreen extends AbstractScreen implements Screen {
         map.dispose();
         renderer.dispose();
         world.dispose();
-        b2dr.dispose();
+        //b2dr.dispose();
         hud.dispose();
-
+        music.dispose();
     }
 }

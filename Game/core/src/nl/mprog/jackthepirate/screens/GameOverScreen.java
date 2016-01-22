@@ -107,7 +107,6 @@ public class GameOverScreen extends AbstractScreen{
         table.addActor(tryAgainkButton);
 //        table.addActor(menuButton);
         stage.addActor(table);
-
     }
 
     @Override
