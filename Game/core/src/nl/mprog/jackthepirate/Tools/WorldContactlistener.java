@@ -38,8 +38,6 @@ public class WorldContactlistener implements ContactListener {
             MainActivity.dead = true;
         }
         if (fixA.getUserData() == "parrot" || fixB.getUserData() == "parrot"){
-            PlayScreen.music = Gdx.audio.newMusic(Gdx.files.internal("C:\\Users\\Netbook\\Desktop\\Programeerproject X\\Game\\android\\assets\\cartoon_parrot_squawk.mp3"));
-            PlayScreen.music.play();
             MainActivity.win = true;
         }
 

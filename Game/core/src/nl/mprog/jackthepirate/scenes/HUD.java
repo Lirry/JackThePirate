@@ -1,20 +1,28 @@
 package nl.mprog.jackthepirate.scenes;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import nl.mprog.jackthepirate.MainActivity;
+import nl.mprog.jackthepirate.Tools.ScreenEnum;
+import nl.mprog.jackthepirate.Tools.ScreenManager;
 import nl.mprog.jackthepirate.screens.MenuScreen;
+import nl.mprog.jackthepirate.screens.PlayScreen;
 
 
 public class HUD implements Disposable{
@@ -44,15 +52,12 @@ public class HUD implements Disposable{
         table.top();
         table.setFillParent(true);
 
-        TextButton pause_button = new TextButton("PAUSE", MenuScreen.skin);
+
 
         scoreLabel = new Label(String.format("%05d", worldTimer), new Label.LabelStyle(new BitmapFont(), Color.RED));
         timeLabel = new Label("TIME", new Label.LabelStyle(new BitmapFont(), Color.RED));
-        levelLabel = new Label("level 1", new Label.LabelStyle(new BitmapFont(), Color.RED));
 
         table.add(timeLabel).expandX().padTop(10);
-        table.add(pause_button).expandX().padTop(10);
-        table.row();
         table.add(scoreLabel).expandX();
 
         stage.addActor(table);
@@ -65,7 +70,6 @@ public class HUD implements Disposable{
             scoreLabel.setText(String.format("%05d", worldTimer));
             timeCount -= 1;
         }
-
 
     }
     @Override

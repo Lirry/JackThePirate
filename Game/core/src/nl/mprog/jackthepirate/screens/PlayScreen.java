@@ -2,11 +2,8 @@ package nl.mprog.jackthepirate.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.assets.loaders.MusicLoader;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.MapObject;
@@ -18,15 +15,9 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.scenes.scene2d.actions.DelayAction;
-
-
-import java.util.Locale;
-import java.util.logging.Handler;
 
 import nl.mprog.jackthepirate.MainActivity;
 import nl.mprog.jackthepirate.Tools.AbstractScreen;
@@ -69,13 +60,16 @@ public class PlayScreen extends AbstractScreen implements Screen {
     private float accelX;
     boolean flip;
     public static Music music;
+    private Music jump;
 
 
 
     public PlayScreen(MainActivity game){
 
-        music = Gdx.audio.newMusic(Gdx.files.internal("C:\\Users\\Netbook\\Desktop\\Programeerproject X\\Game\\android\\assets\\pirates.mp3"));
+        music = Gdx.audio.newMusic(Gdx.files.internal("pirates.mp3"));
+        music.setVolume(0.2f);
         music.play();
+
 
         // Initiates the game
         this.game = game;
@@ -126,6 +120,7 @@ public class PlayScreen extends AbstractScreen implements Screen {
 
 
 
+
         // The ground as an object is defined
         for(MapObject object : map.getLayers().get(2).getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
@@ -158,9 +153,8 @@ public class PlayScreen extends AbstractScreen implements Screen {
 
     public void handleInput(float dt){
         if (Gdx.input.isTouched() && player.b2body.getLinearVelocity().y == 0 || Gdx.input.isTouched() && MainActivity.onPlatform){
-            Music music = Gdx.audio.newMusic(Gdx.files.internal("C:\\Users\\Netbook\\Desktop\\Programeerproject X\\Game\\android\\assets\\popsound.wav"));
-            music.setPosition(0.3f);
-            music.play();
+            Music jump = Gdx.audio.newMusic(Gdx.files.internal("popsound.wav"));
+            jump.play();
             player.b2body.applyLinearImpulse(new Vector2(0, 9f), player.b2body.getWorldCenter(), true);
             MainActivity.onPlatform = false;
         }
@@ -243,6 +237,7 @@ public class PlayScreen extends AbstractScreen implements Screen {
         update(delta);
 
 
+
         // Clear the screen
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -253,6 +248,8 @@ public class PlayScreen extends AbstractScreen implements Screen {
 
         // render the box2d
         //b2dr.render(world, gamecam.combined);
+        MainActivity.batch.setProjectionMatrix(hud.stage.getCamera().combined);
+        hud.stage.draw();
 
         MainActivity.batch.setProjectionMatrix(gamecam.combined);
         MainActivity.batch.begin();
@@ -267,18 +264,17 @@ public class PlayScreen extends AbstractScreen implements Screen {
 
 
 
-        MainActivity.batch.setProjectionMatrix(hud.stage.getCamera().combined);
-        hud.stage.draw();
-
 
         if (MainActivity.dead){
+            Music dead = Gdx.audio.newMusic(Gdx.files.internal("musical_piano_strings_stab_minor.mp3"));
+            dead.play();
             MainActivity.dead = false;
             ScreenManager.getInstance().showScreen(ScreenEnum.GAME_OVER);
         }
         if (MainActivity.win){
-            music = Gdx.audio.newMusic(Gdx.files.internal("C:\\Users\\Netbook\\Desktop\\Programeerproject X\\Game\\android\\assets\\cartoon_parrot_squawk.mp3"));
-            music.play();
-            MainActivity.prefs.putInteger("highscore", HUD.worldTimer);
+            Music win = Gdx.audio.newMusic(Gdx.files.internal("cartoon_parrot_squawk.mp3"));
+            win.play();
+            MainActivity.prefs.putString("highscore", HUD.worldTimer.toString());
             MainActivity.prefs.flush();
             Gdx.app.log("highscore", MainActivity.prefs.getString("highscore"));
             ScreenManager.getInstance().showScreen(ScreenEnum.WIN);
@@ -293,7 +289,6 @@ public class PlayScreen extends AbstractScreen implements Screen {
 
     @Override
     public void pause() {
-
     }
 
     @Override

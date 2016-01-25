@@ -34,7 +34,7 @@ public class Parrot extends Sprite {
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
 
-        bdef.position.set(12.5f, 20.5f);
+        bdef.position.set(2f , 4f);
         bdef.type = BodyDef.BodyType.KinematicBody;
         b2body = world.createBody(bdef);
 

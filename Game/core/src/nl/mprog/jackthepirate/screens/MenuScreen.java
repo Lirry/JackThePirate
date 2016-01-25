@@ -94,6 +94,7 @@ public class MenuScreen extends AbstractScreen{
         highScoresButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                MainActivity.fromMenu = true;
                 ScreenManager.getInstance().showScreen(ScreenEnum.HIGHSCORES);
             }
         });
