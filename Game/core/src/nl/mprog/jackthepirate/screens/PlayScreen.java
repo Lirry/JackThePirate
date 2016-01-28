@@ -178,8 +178,7 @@ public class PlayScreen extends AbstractScreen implements Screen {
             MainActivity.onPlatform = false;
         }
         // Jack goes right
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-//        if(Gdx.input.getRoll()> 8 && player.b2body.getLinearVelocity().x <= 3 ){
+        if(Gdx.input.getRoll()> 8 && player.b2body.getLinearVelocity().x <= 3 ){
             player.b2body.applyLinearImpulse(new Vector2(0.1f, 0),
                     player.b2body.getWorldCenter(), true);
             if (!flip) {
@@ -188,8 +187,7 @@ public class PlayScreen extends AbstractScreen implements Screen {
             }
         }
         // Jack goes left
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-//        if(Gdx.input.getRoll()< -8 && player.b2body.getLinearVelocity().x >= -3){
+        if(Gdx.input.getRoll()< -8 && player.b2body.getLinearVelocity().x >= -3){
             player.b2body.applyLinearImpulse(new Vector2(-0.1f, 0),
                     player.b2body.getWorldCenter(), true);
             if (flip) {
