@@ -8,8 +8,11 @@ Jack the Pirate is een 2D platformer voor Android waarin een piraat(hoofd) die z
 ![](doc/Screenshot_2016-01-28-20-28-40.png) ![](doc/Screenshot_2016-01-28-20-30-09.png)
 ![](doc/Screenshot_2016-01-28-20-29-26.png) ![](doc/Screenshot_2016-01-28-20-32-36.png) 
 . 
+### Installeren
+- Maak een kopie van de repository, en open het project in android studio. Exporteer voor android. Het spel kan ook gespeeld worden op de desktop. Zorg dan dat je in Android Studio met Desktop Launcher opent.
+- Lees: Alles moet gekopieerd worden, de LibGDX engine zet de assets namelijk in de /android folder terwijl de rest van de code in de /core folder zit.
 
-Externe bronnen:
+###Externe bronnen:
 
 - Kenney van http://kenney.nl/ (Game-art, (.tmx file))
 - Brent Aureli https://www.youtube.com/user/Profyx (Game-engine, (PlayScreen))
