@@ -99,9 +99,9 @@ public class HowToScreen extends AbstractScreen {
         createBasicSkin();
         TextButton backButton = new TextButton("Get Jack to his parrot as fast as possible!" + "\n" +
                 " Avoid the spikes, they kill you." + "\n" +
-                " Roll your screen to the left or right to move, tap to jump!" + "\n" +
-                " Move the platforms by grabbing feathers of the same color" + "\n" + "\n" +
-                "touch text button to return", skin);
+                "Roll your screen to the left or right to move, tap to jump!" + "\n" +
+                " Move the platforms by grabbing feathers!" + "\n" + "\n" +
+                "touch this text to return", skin);
         backButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
