@@ -15,3 +15,4 @@ Externe bronnen:
 - Brent Aureli https://www.youtube.com/user/Profyx (Game-engine, (PlayScreen))
 - Gustavo Steigert http://steigert.blogspot.nl/2012/03/4-libgdx-tutorial-tablelayout.html (Menu lay-out, AbstractScreens)
 
+>This is a project for the final course of the [minor programming](http://www.mprog.nl/) at the University of Amsterdam. This product is licensed under [GNU Lesser General Public License V3.0](https://www.gnu.org/licenses/lgpl-3.0.en.html).<br>*Lirry Pinter - 10565051 - lirry.pinter@gmail.com*
