@@ -8,38 +8,57 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 
 import nl.mprog.jackthepirate.MainActivity;
-import nl.mprog.jackthepirate.screens.PlayScreen;
+
+/**
+ * Lirry Pinter
+ * 10565051
+ * lirry.pinter@gmail.com
+ *
+ * The WorldContactListener class is used to detect all sorts of collisions within the game.
+ * It is a pre-made class from LibGDX.
+ */
+
 
 
 public class WorldContactlistener implements ContactListener {
 
-    /**
-     *
-     * Comment Section
-     */
     @Override
     public void beginContact(Contact contact) {
+        // Initialize two fixtures for collision detecting
         Fixture fixA = contact.getFixtureA();
         Fixture fixB = contact.getFixtureB();
 
-        if(fixA.getUserData() == "jack" || fixB.getUserData() == "jack"){
-            Fixture playerCol = fixA.getUserData() == "jack" ? fixA : fixB;
-            Fixture feather = playerCol == fixA ? fixB : fixA;
-            if (feather.getUserData() instanceof InteractiveObject){
-                Gdx.app.log("Working till here", "second if loop");
-                ((InteractiveObject) feather.getUserData()).onFeatherPickup();
-            }
-        }
-        if (fixA.getUserData() == "platform" || fixB.getUserData() == "platform") {
+        // If one of the fixtures is the platform, switch boolean
+        if (fixA.getUserData() == "platform" || fixB.getUserData() == "platform" ||
+                fixA.getUserData() == "platform_blue" || fixB.getUserData() == "platform_blue" ||
+                fixA.getUserData() == "platform_green" || fixB.getUserData() == "platform_green" ) {
             MainActivity.onPlatform = true;
         }
+        // If one of the fixtures is the spike, switch boolean
         if (fixA.getUserData() == "spike" || fixB.getUserData() == "spike"){
-            Gdx.app.log("DEAD BABY", "DEAD");
             MainActivity.dead = true;
         }
+        // If one of the fixtures is the parrot, switch boolean
         if (fixA.getUserData() == "parrot" || fixB.getUserData() == "parrot"){
             MainActivity.win = true;
         }
+        // If one of the fixtures are the feathers, switch booleans
+        if (fixA.getUserData() == "feather_red" || fixB.getUserData() == "feather_red"){
+            MainActivity.featherRedPicked = true;
+            MainActivity.featherBluePicked = false;
+            MainActivity.featherGreenPicked = false;
+        }
+        if (fixA.getUserData() == "feather_blue" || fixB.getUserData() == "feather_blue"){
+            MainActivity.featherBluePicked = true;
+            MainActivity.featherGreenPicked = false;
+            MainActivity.featherRedPicked = false;
+        }
+        if (fixA.getUserData() == "feather_green" || fixB.getUserData() == "feather_green"){
+            MainActivity.featherGreenPicked = true;
+            MainActivity.featherBluePicked = false;
+            MainActivity.featherRedPicked = false;
+        }
+
 
     }
 

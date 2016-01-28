@@ -18,20 +18,37 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.TimeUtils;
+import com.badlogic.gdx.utils.Timer;
 
 import nl.mprog.jackthepirate.MainActivity;
 import nl.mprog.jackthepirate.Tools.AbstractScreen;
+import nl.mprog.jackthepirate.Tools.ResetGame;
 import nl.mprog.jackthepirate.Tools.ScreenEnum;
 import nl.mprog.jackthepirate.Tools.ScreenManager;
 import nl.mprog.jackthepirate.Tools.WorldContactlistener;
 import nl.mprog.jackthepirate.scenes.HUD;
-import nl.mprog.jackthepirate.sprites.Feather;
+import nl.mprog.jackthepirate.sprites.FeatherBlue;
+import nl.mprog.jackthepirate.sprites.FeatherGreen;
+import nl.mprog.jackthepirate.sprites.FeatherRed;
 import nl.mprog.jackthepirate.sprites.Jack;
 import nl.mprog.jackthepirate.sprites.Parrot;
 import nl.mprog.jackthepirate.sprites.Platform;
 import nl.mprog.jackthepirate.sprites.PlatformBlue;
 import nl.mprog.jackthepirate.sprites.PlatformGreen;
 import nl.mprog.jackthepirate.sprites.Spike;
+import nl.mprog.jackthepirate.sprites.SpikeThree;
+import nl.mprog.jackthepirate.sprites.SpikeTwo;
+
+/**
+ *
+ * Lirry Pinter
+ * 10565051
+ * lirry.pinter@gmail.com
+ *
+ * The PlayScreen is where the entire game-engine works. It takes a map, initializes all the sprites
+ * and the world. Movement, win and death of Jack is specified.
+ */
 
 
 public class PlayScreen extends AbstractScreen implements Screen {
@@ -45,7 +62,6 @@ public class PlayScreen extends AbstractScreen implements Screen {
     private OrthogonalTiledMapRenderer renderer;
 
     private World world;
-   // private Box2DDebugRenderer b2dr;
     private float unitScale = 1 / 16f;
 
     private Jack player;
@@ -53,23 +69,28 @@ public class PlayScreen extends AbstractScreen implements Screen {
     private PlatformGreen platform_green;
     private PlatformBlue platform_blue;
     private Spike spike;
+    private SpikeTwo spike_two;
+    private SpikeThree spike_three;
     private Parrot parrot;
-
+    private FeatherRed feather_red;
+    private FeatherBlue feather_blue;
+    private FeatherGreen feather_green;
 
 
     private float accelX;
     boolean flip;
     public static Music music;
-    private Music jump;
 
 
 
     public PlayScreen(MainActivity game){
 
-        music = Gdx.audio.newMusic(Gdx.files.internal("pirates.mp3"));
-        music.setVolume(0.2f);
-        music.play();
-
+        // Start music if toggled
+        if(MainActivity.toggleMusic) {
+            music = Gdx.audio.newMusic(Gdx.files.internal("pirates.mp3"));
+            music.setVolume(0.2f);
+            music.play();
+        }
 
         // Initiates the game
         this.game = game;
@@ -81,34 +102,37 @@ public class PlayScreen extends AbstractScreen implements Screen {
 
         // loading gamecam
         gamecam = new OrthographicCamera();
-        gamecam.setToOrtho(false, 3, 12);
+        gamecam.setToOrtho(false, 4, 14);
         gamecam.update();
 
         // loading hud
         hud = new HUD(MainActivity.batch);
 
 
-
-        // Box2D world (graphics)
+        // load box2d world
         world = new World(new Vector2(0, -10), true);
-       // b2dr = new Box2DDebugRenderer();
 
-        // New Jack
+        // load sprites
         player = new Jack(world);
         platform = new Platform(world);
         platform_green = new PlatformGreen(world);
         platform_blue = new PlatformBlue(world);
         spike = new Spike(world);
+        spike_two = new SpikeTwo(world);
+        spike_three = new SpikeThree(world);
         parrot = new Parrot(world);
+        feather_red = new FeatherRed(world);
+        feather_blue = new FeatherBlue(world);
+        feather_green = new FeatherGreen(world);
 
 
         // get the z axis for controls
         accelX = Gdx.input.getAccelerometerX();
 
-        // Setting contactlistener for collision
+        // Set contactlistener for collision
         world.setContactListener(new WorldContactlistener());
 
-        // Setting flip for jack
+        // Set flip for jack
         flip = player.isFlipX();
 
 
@@ -119,31 +143,22 @@ public class PlayScreen extends AbstractScreen implements Screen {
         Body body;
 
 
-
-
-        // The ground as an object is defined
+        // The ground as an object is defined, from the tiled-map.
         for(MapObject object : map.getLayers().get(2).getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
 
             bdef.type = BodyDef.BodyType.StaticBody;
-            bdef.position.set((rect.getX() + rect.getWidth() / 2) / MainActivity.PPM, (rect.getY() + rect.getHeight() / 2) / MainActivity.PPM);
+            bdef.position.set((rect.getX() + rect.getWidth() / 2) / MainActivity.PPM, (rect.getY()
+                    + rect.getHeight() / 2) / MainActivity.PPM);
 
             body = world.createBody(bdef);
 
-            shape.setAsBox(rect.getWidth() / 2 / MainActivity.PPM, rect.getHeight() / 2 / MainActivity.PPM);
+            shape.setAsBox(rect.getWidth() / 2 / MainActivity.PPM, rect.getHeight()
+                    / 2 / MainActivity.PPM);
             fdef.shape = shape;
             body.createFixture(fdef);
 
         }
-        // The feathers as an object is defined
-        for(MapObject object: map.getLayers().get(3).getObjects().getByType(RectangleMapObject.class)){
-            Rectangle rect = ((RectangleMapObject) object).getRectangle();
-            bdef.type = BodyDef.BodyType.DynamicBody;
-
-            new Feather(world, map, rect);
-        }
-
-
     }
 
 
@@ -151,49 +166,137 @@ public class PlayScreen extends AbstractScreen implements Screen {
     public void show() {
     }
 
-    public void handleInput(float dt){
-        if (Gdx.input.isTouched() && player.b2body.getLinearVelocity().y == 0 || Gdx.input.isTouched() && MainActivity.onPlatform){
+    public void handleInput(float dt) {
+
+        // Jack jumps
+        if (Gdx.input.isTouched() && player.b2body.getLinearVelocity().y == 0 ||
+                Gdx.input.isTouched() && MainActivity.onPlatform) {
             Music jump = Gdx.audio.newMusic(Gdx.files.internal("popsound.wav"));
             jump.play();
-            player.b2body.applyLinearImpulse(new Vector2(0, 9f), player.b2body.getWorldCenter(), true);
+            player.b2body.applyLinearImpulse(new Vector2(0, 9f),
+                    player.b2body.getWorldCenter(), true);
             MainActivity.onPlatform = false;
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
+        // Jack goes right
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
 //        if(Gdx.input.getRoll()> 8 && player.b2body.getLinearVelocity().x <= 3 ){
-            player.b2body.applyLinearImpulse(new Vector2(0.1f, 0), player.b2body.getWorldCenter(), true);
+            player.b2body.applyLinearImpulse(new Vector2(0.1f, 0),
+                    player.b2body.getWorldCenter(), true);
             if (!flip) {
                 player.setFlip(true, false);
                 flip = true;
             }
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)){
+        // Jack goes left
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
 //        if(Gdx.input.getRoll()< -8 && player.b2body.getLinearVelocity().x >= -3){
-            player.b2body.applyLinearImpulse(new Vector2(-0.1f, 0), player.b2body.getWorldCenter(), true);
+            player.b2body.applyLinearImpulse(new Vector2(-0.1f, 0),
+                    player.b2body.getWorldCenter(), true);
             if (flip) {
                 player.setFlip(false, false);
                 flip = false;
             }
         }
-        if (MainActivity.featherpicked == 1){
-            if (platform.b2body.getPosition().y > 10) {
-                platform.b2body.setLinearVelocity(0, -0.9f);
-            }
-            else if (platform.b2body.getPosition().y <= 8){
+
+        if (MainActivity.featherRedPicked) {
+            // Remove feather
+            feather_red.b2body.setActive(false);
+            feather_red.setBounds(0, 0, 0, 0);
+
+            // Other feathers get spawned again
+            feather_blue.b2body.setActive(true);
+            feather_blue.setBounds(0, 0, 16 / MainActivity.PPM, 16 / MainActivity.PPM);
+
+            feather_green.b2body.setActive(true);
+            feather_green.setBounds(0, 0, 16 / MainActivity.PPM, 16 / MainActivity.PPM);
+        }
+
+        // Move platform
+        if(MainActivity.featherRedPicked) {
+            if (MainActivity.up_red) {
                 platform.b2body.setLinearVelocity(0, 0.9f);
+                if (platform.b2body.getPosition().y >= 11) {
+                    MainActivity.up_red = false;
+                    MainActivity.down_red = true;
+                }
             }
-            if (platform_green.b2body.getPosition().x > 11){
-                platform_green.b2body.setLinearVelocity(-0.8f, 0);
+            if (MainActivity.down_red) {
+                platform.b2body.setLinearVelocity(0, -0.9f);
+                if (platform.b2body.getPosition().y <= 7) {
+                    MainActivity.down_red = false;
+                    MainActivity.up_red = true;
+                }
             }
-            else if (platform_green.b2body.getPosition().x <= 4){
-                platform_green.b2body.setLinearVelocity(0.8f, 0);
+        }
+        else{
+            platform.b2body.setLinearVelocity(0,0);
+        }
+
+        if (MainActivity.featherGreenPicked){
+            // Remove feather
+            feather_green.b2body.setActive(false);
+            feather_green.setBounds(0,0,0,0);
+
+            // Other feathers get spawned again
+            feather_red.b2body.setActive(true);
+            feather_red.setBounds(0, 0, 16 / MainActivity.PPM, 16 / MainActivity.PPM);
+
+            feather_blue.b2body.setActive(true);
+            feather_blue.setBounds(0, 0, 16 / MainActivity.PPM, 16 / MainActivity.PPM);
+        }
+        // Move platform
+        if(MainActivity.featherGreenPicked){
+            if (MainActivity.right_green) {
+                    platform_green.b2body.setLinearVelocity(0.9f, 0);
+                if(platform_green.b2body.getPosition().x >= 10){
+                    MainActivity.right_green = false;
+                    MainActivity.left_green = true;
+                }
+            } if (MainActivity.left_green) {
+                platform_green.b2body.setLinearVelocity(-0.9f, 0);
+                if(platform_green.b2body.getPosition().x <= 4){
+                    MainActivity.left_green = false;
+                    MainActivity.right_green = true;
+                }
             }
-            if (platform_blue.b2body.getPosition().x <= 4){
-                platform_blue.b2body.setLinearVelocity(0.8f, 0);
-            }
-            else if(platform_blue.b2body.getPosition().x > 10){
-               platform_blue.b2body.setLinearVelocity(-0.8f, 0);
-            }
+        }
+        else {
+            platform_green.b2body.setLinearVelocity(0, 0);
+        }
+
+        if (MainActivity.featherBluePicked){
+            // Remove feather
+            feather_blue.b2body.setActive(false);
+            feather_blue.setBounds(0, 0, 0, 0);
+
+            // Other feathers get spawned again
+            feather_red.b2body.setActive(true);
+            feather_red.setBounds(0, 0, 16/ MainActivity.PPM, 16 / MainActivity.PPM);
+
+            feather_green.b2body.setActive(true);
+            feather_green.setBounds(0, 0, 16/ MainActivity.PPM, 16/MainActivity.PPM);
+
        }
+        // Move platform
+        if (MainActivity.featherBluePicked){
+            if (MainActivity.right_blue) {
+                platform_blue.b2body.setLinearVelocity(0.9f, 0);
+                if(platform_blue.b2body.getPosition().x >= 5){
+                MainActivity.right_blue = false;
+                MainActivity.left_blue = true;
+            }
+            }
+            if (MainActivity.left_blue) {
+                platform_blue.b2body.setLinearVelocity(-0.9f, 0);
+                if(platform_blue.b2body.getPosition().x <= 2){
+                    MainActivity.left_blue = false;
+                    MainActivity.right_blue = true;
+                }
+            }
+        }
+        else {
+            platform_blue.b2body.setLinearVelocity(0, 0);
+        }
 
 
     }
@@ -202,25 +305,28 @@ public class PlayScreen extends AbstractScreen implements Screen {
 
 
     public void update(float dt){
+        // Update the world, based on delta time
         handleInput(dt);
-
         world.step(1 / 60f, 6, 2);
-
         player.update(dt);
         platform.update(dt);
         platform_green.update(dt);
         platform_blue.update(dt);
         spike.update(dt);
+        spike_two.update(dt);
+        spike_three.update(dt);
         parrot.update(dt);
+        feather_red.update(dt);
+        feather_blue.update(dt);
+        feather_green.update(dt);
         hud.update(dt);
-
         renderer.setView(gamecam);
 
+        // Let camera follow player
         gamecam.position.x = player.b2body.getPosition().x;
-        if(player.b2body.getPosition().y > 5){
+        if(player.b2body.getPosition().y > 7){
             gamecam.position.y = player.b2body.getPosition().y;
         }
-
         gamecam.update();
 
 
@@ -247,38 +353,60 @@ public class PlayScreen extends AbstractScreen implements Screen {
         renderer.render();
 
         // render the box2d
-        //b2dr.render(world, gamecam.combined);
         MainActivity.batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
 
+        // Set gamecam with HUD
         MainActivity.batch.setProjectionMatrix(gamecam.combined);
+
+        // Load all the assest from spritebatch
         MainActivity.batch.begin();
         player.draw(MainActivity.batch);
         platform.draw(MainActivity.batch);
         platform_green.draw(MainActivity.batch);
         platform_blue.draw(MainActivity.batch);
         spike.draw(MainActivity.batch);
+        spike_two.draw(MainActivity.batch);
+        spike_three.draw(MainActivity.batch);
         parrot.draw(MainActivity.batch);
+        feather_red.draw(MainActivity.batch);
+        feather_blue.draw(MainActivity.batch);
+        feather_green.draw(MainActivity.batch);
         MainActivity.batch.end();
 
 
-
-
-
+        // If Jack is dead
         if (MainActivity.dead){
-            Music dead = Gdx.audio.newMusic(Gdx.files.internal("musical_piano_strings_stab_minor.mp3"));
+            Music dead = Gdx.audio.newMusic
+                    (Gdx.files.internal("musical_piano_strings_stab_minor.mp3"));
             dead.play();
             MainActivity.dead = false;
+
+            // Reset game variables
+            ResetGame.ResetGame();
+
+            // Set game over screen
             ScreenManager.getInstance().showScreen(ScreenEnum.GAME_OVER);
         }
+        // If Jack wins
         if (MainActivity.win){
+            // Play win-music
             Music win = Gdx.audio.newMusic(Gdx.files.internal("cartoon_parrot_squawk.mp3"));
             win.play();
+
+            // Reset game variables
+            ResetGame.ResetGame();
+
+            // Put highscore in prefs
             MainActivity.prefs.putString("highscore", HUD.worldTimer.toString());
             MainActivity.prefs.flush();
-            Gdx.app.log("highscore", MainActivity.prefs.getString("highscore"));
+
+            // New winscreen
             ScreenManager.getInstance().showScreen(ScreenEnum.WIN);
+
+            // Set booleans
             MainActivity.win = false;
+            MainActivity.noHighscores = true;
         }
 
     }
@@ -303,11 +431,13 @@ public class PlayScreen extends AbstractScreen implements Screen {
 
     @Override
     public void dispose() {
+        // Dispose before exit
         map.dispose();
         renderer.dispose();
         world.dispose();
-        //b2dr.dispose();
         hud.dispose();
-        music.dispose();
+        if(MainActivity.toggleMusic) {
+            music.dispose();
+        }
     }
 }

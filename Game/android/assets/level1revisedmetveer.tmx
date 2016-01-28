@@ -11,7 +11,7 @@
  </tileset>
  <tileset firstgid="28928" name="wall" tilewidth="16" tileheight="16" tilecount="1" columns="0">
   <tile id="0">
-   <image width="16" height="16" source="../../../../wall.png"/>
+   <image source="../../../../wall.png"/>
   </tile>
  </tileset>
  <layer name="background" width="14" height="70">
@@ -31,8 +31,5 @@
   <object id="15" x="0" y="16" width="224"/>
   <object id="34" x="16" y="912" width="112" height="16"/>
   <object id="49" x="113.333" y="801" width="93.3333" height="14.6667"/>
- </objectgroup>
- <objectgroup name="feathers">
-  <object id="21" x="191.5" y="1088" width="16" height="16"/>
  </objectgroup>
 </map>

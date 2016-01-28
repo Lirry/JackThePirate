@@ -11,6 +11,14 @@ import com.badlogic.gdx.physics.box2d.World;
 
 import nl.mprog.jackthepirate.MainActivity;
 
+/**
+ * Lirry Pinter
+ * 10565051
+ * lirry.pinter@gmail.com
+ *
+ * Jack is defined using Bod2D
+ */
+
 
 public class Jack extends Sprite {
 
@@ -20,9 +28,14 @@ public class Jack extends Sprite {
 
 
     public Jack(World world){
+        // Place Jack in world context
         this.world = world;
         defineJack();
+
+        // Use png file for sprite
         jackSprite = new Texture("jackmediumhq.png");
+
+        // Set size
         setBounds(0, 0, 16/MainActivity.PPM, 20/MainActivity.PPM);
         setRegion(jackSprite);
     }
@@ -33,28 +46,20 @@ public class Jack extends Sprite {
 
 
     public void defineJack(){
+        // Bodydefinition for collision
         BodyDef bdef = new BodyDef();
         bdef.position.set(32/ MainActivity.PPM, 32 / MainActivity.PPM);
         bdef.type = BodyDef.BodyType.DynamicBody;
         b2body = world.createBody(bdef);
 
-        // defining the shape of the sprite to interact with the ground
+        // define shape of the sprite to interact with the ground
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
-        shape.setRadius(8.8f/ MainActivity.PPM);
+        shape.setRadius(8.8f / MainActivity.PPM);
 
-        fdef.filter.categoryBits = MainActivity.JACK_BIT;
-        fdef.filter.maskBits = MainActivity.DEFAULT_BIT | MainActivity.FEATHER_BIT | MainActivity.SPIKE_BIT;
-
+        // Create bodyfixture for collision
         fdef.shape = shape;
         b2body.createFixture(fdef);
         b2body.createFixture(fdef).setUserData("jack");
-
-        // defining the fixtures of jack to interact with other objects
-        CircleShape collisionShape = new CircleShape();
-        shape.setRadius(13 / MainActivity.PPM);
-        fdef.shape = collisionShape;
-        fdef.isSensor = true;
-
     }
 }

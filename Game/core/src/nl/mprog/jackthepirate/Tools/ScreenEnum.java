@@ -8,6 +8,14 @@ import nl.mprog.jackthepirate.screens.MenuScreen;
 import nl.mprog.jackthepirate.screens.PlayScreen;
 import nl.mprog.jackthepirate.screens.WinScreen;
 
+/**
+ * Lirry Pinter
+ * 10565051
+ * lirry.pinter@gmail.com
+ *
+ * In the ScreenEnum class, the different AbstractScreens are listed, so the ScreenManager can
+ * easily switch between them.
+ */
 
 public enum ScreenEnum {
 
@@ -38,6 +46,8 @@ public enum ScreenEnum {
     },
     GAME{
         public AbstractScreen getScreen(){
+                // New instance of a PlayScreen, which is different
+                // from the others because it is not an AbstractScreen.
                 return new PlayScreen(new MainActivity());
             }
     };

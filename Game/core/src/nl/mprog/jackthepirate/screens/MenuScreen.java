@@ -20,16 +20,22 @@ import nl.mprog.jackthepirate.Tools.AbstractScreen;
 import nl.mprog.jackthepirate.Tools.ScreenEnum;
 import nl.mprog.jackthepirate.Tools.ScreenManager;
 
-
-// The skin-building method comes from http://www.tempoparalelo.com/blog/?p=76
-
+/**
+ * Lirry Pinter
+ * 10565051
+ * lirry.pinter@gmail.com
+ *
+ * In the Main Menu the player can choose to play a new game, go to the HowToScreen,
+ * check highscores or toggle the music.
+ * The basic skin-building method comes from http://www.tempoparalelo.com/blog/?p=76.
+ */
 
 public class MenuScreen extends AbstractScreen{
 
     public Stage stage;
     public static Skin skin;
-    private Texture texture;
 
+    // Create basic skin
     public void createBasicSkin(){
         //Create a font
         BitmapFont font = new BitmapFont();
@@ -59,21 +65,26 @@ public class MenuScreen extends AbstractScreen{
     @Override
     public void show() {
 
+        // Create a stage, let it consume events
         stage = new Stage();
-        Gdx.input.setInputProcessor(stage);// Make the stage consume events
+        Gdx.input.setInputProcessor(stage);
 
 
-        texture = new Texture("backgroundmenunieuw.png");
-        TextureRegion textureRegion = new TextureRegion(texture,Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        // Create a texture for the background, add to stage
+        Texture texture = new Texture("backgroundmenunieuw.png");
+        TextureRegion textureRegion = new TextureRegion(texture,Gdx.graphics.getWidth(),
+                Gdx.graphics.getHeight());
         textureRegion.setRegionWidth(720);
         textureRegion.setRegionHeight(1280);
         Image background = new Image(textureRegion);
         stage.addActor(background);
 
+        // Create a table
         Table table = new Table();
         table.center();
         table.setFillParent(true);
 
+        // Create buttons
         createBasicSkin();
         TextButton newGameButton = new TextButton("  NEW GAME  ", skin);
         newGameButton.addListener(new ChangeListener() {
@@ -89,25 +100,52 @@ public class MenuScreen extends AbstractScreen{
                 ScreenManager.getInstance().showScreen(ScreenEnum.HOW_TO);
             }
         });
-
-        TextButton highScoresButton = new TextButton("HIGHSCORES", skin);
+        final TextButton highScoresButton = new TextButton("HIGHSCORES", skin);
         highScoresButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                MainActivity.fromMenu = true;
-                ScreenManager.getInstance().showScreen(ScreenEnum.HIGHSCORES);
+                if (MainActivity.noHighscores) {
+                    ScreenManager.getInstance().showScreen(ScreenEnum.HIGHSCORES);
+                } else {
+                    highScoresButton.setText("NO HIGHSCORES YET");
+                }
             }
         });
-        newGameButton.setPosition(Gdx.graphics.getWidth()/2 - Gdx.graphics.getWidth()/8 , Gdx.graphics.getHeight()/2);
-        howToButton.setPosition(Gdx.graphics.getWidth()/2 - Gdx.graphics.getWidth()/8,(Gdx.graphics.getHeight()/2) -75);
-        highScoresButton.setPosition(Gdx.graphics.getWidth() / 2 - Gdx.graphics.getWidth()/8,(Gdx.graphics.getHeight()/2) -150);
+        final TextButton toggleMusicButton = new TextButton("MUSIC ON", skin);
+        toggleMusicButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                if(MainActivity.toggleMusic){
+                    MainActivity.toggleMusic = false;
+                    toggleMusicButton.setText("MUSIC OFF");
+                }
+                else{
+                    MainActivity.toggleMusic= true;
+                    toggleMusicButton.setText("MUSIC ON");
+                }
+            }
+        });
 
+        // Set positions of buttons
+        newGameButton.setPosition(Gdx.graphics.getWidth() / 2 - Gdx.graphics.getWidth() / 8,
+                Gdx.graphics.getHeight() / 2);
+        howToButton.setPosition(Gdx.graphics.getWidth() / 2 - Gdx.graphics.getWidth() / 8,
+                (Gdx.graphics.getHeight() / 2) - 75);
+        highScoresButton.setPosition(Gdx.graphics.getWidth() / 2 - Gdx.graphics.getWidth()/8,
+                (Gdx.graphics.getHeight()/2) -150);
+        toggleMusicButton.setPosition(Gdx.graphics.getWidth() / 2 - Gdx.graphics.getWidth()/8,
+                (Gdx.graphics.getHeight()/2) -200);
+
+        // Add buttons to table
         table.add(newGameButton);
         table.row();
         table.add(howToButton);
         table.row();
         table.add(highScoresButton);
+        table.row();
+        table.add(toggleMusicButton);
 
+        // Add table to stage
         stage.addActor(table);
 
 
@@ -126,10 +164,12 @@ public class MenuScreen extends AbstractScreen{
 
     @Override
     public void render(float delta) {
+        // Clear screen
         Gdx.gl.glClearColor(0, 1, 1, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 
+        // Draw stage
         stage.act();
         stage.draw();
 
@@ -138,6 +178,7 @@ public class MenuScreen extends AbstractScreen{
 
     @Override
     public void resize(int width, int height) {
+        // Resize if necessary
         stage.getViewport().update(width, height, true);
 
     }

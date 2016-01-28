@@ -4,8 +4,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
 import nl.mprog.jackthepirate.MainActivity;
@@ -15,26 +15,26 @@ import nl.mprog.jackthepirate.MainActivity;
  * 10565051
  * lirry.pinter@gmail.com
  *
- * The blue platform is defined using Box2D.
+ * The red feather is defined using Box2D
  */
 
-public class PlatformBlue extends Sprite {
+public class FeatherRed extends Sprite {
     public World world;
     public Body b2body;
-    public Texture platformSprite;
+    public Texture featherSprite;
 
 
-    public PlatformBlue(World world){
-        // Place platform in world context
+    public FeatherRed(World world){
+        // Place feather in world context
         this.world = world;
-        definePlatform();
+        defineFeather();
 
         // Use png file for sprite
-        platformSprite = new Texture("platform_blue.png");
+        featherSprite = new Texture("feather_red.png");
 
         // Set size
-        setBounds(0, 0, 40/ MainActivity.PPM, 12/MainActivity.PPM);
-        setRegion(platformSprite);
+        setBounds(0, 0, 16/ MainActivity.PPM, 16/MainActivity.PPM);
+        setRegion(featherSprite);
     }
 
     public void update(float dt) {
@@ -42,23 +42,23 @@ public class PlatformBlue extends Sprite {
     }
 
 
-    public void definePlatform(){
+    public void defineFeather(){
         // Bodydefinition for collision
         BodyDef bdef = new BodyDef();
-        PolygonShape shape = new PolygonShape();
+        CircleShape shape = new CircleShape();
         FixtureDef fdef = new FixtureDef();
 
-        // Position in world
-        bdef.position.set(2.5f, 16);
+        // Position in the world
+        bdef.position.set(6, 7f);
 
-        // Box shape for collision
-        bdef.type = BodyDef.BodyType.KinematicBody;
-        shape.setAsBox(1.25f, 0.45f);
+        // Set solid circle as collison body
+        bdef.type = BodyDef.BodyType.StaticBody;
+        shape.setRadius(4 / MainActivity.PPM);
         b2body = world.createBody(bdef);
 
         // defining the shape of the sprite to interact with the ground
         fdef.shape = shape;
-        b2body.createFixture(fdef).setUserData("platform_blue");
+        b2body.createFixture(fdef).setUserData("feather_red");
         b2body.createFixture(fdef);
     }
 }

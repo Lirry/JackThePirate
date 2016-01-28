@@ -19,19 +19,26 @@ import nl.mprog.jackthepirate.Tools.AbstractScreen;
 import nl.mprog.jackthepirate.Tools.ScreenEnum;
 import nl.mprog.jackthepirate.Tools.ScreenManager;
 
+/**
+ * Lirry Pinter
+ * 10565051
+ * lirry.pinter@gmail.com
+ *
+ * In the HowToScreen the player can see how the controls work, and what the goal is.
+ */
+
 
 public class HowToScreen extends AbstractScreen {
     public Stage stage;
     public Skin skin;
-    private Texture texture;
 
+    // Create basic skin
     public void createBasicSkin(){
         //Create a font
         BitmapFont font = new BitmapFont();
         font.getData().setScale(2, 2);
         skin = new Skin();
         skin.add("default", font);
-
 
         //Create a texture
         Pixmap pixmap = new Pixmap(Gdx.graphics.getWidth()/2,200, Pixmap.Format.RGBA8888);
@@ -65,34 +72,44 @@ public class HowToScreen extends AbstractScreen {
 
     @Override
     public void render(float delta) {
+        // Clear the screen
         Gdx.gl.glClearColor(0, 0, 1, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        // Draw the stage
         stage.act();
         stage.draw();
     }
 
     @Override
     public void show() {
+        // Create a new stage and that it can handle events
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);// Make the stage consume events
 
-        texture = new Texture("backgroundmenunieuw.png");
-        TextureRegion textureRegion = new TextureRegion(texture,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+        // Creat a texture for background
+        Texture texture = new Texture("backgroundmenunieuw.png");
+        TextureRegion textureRegion = new TextureRegion(texture,Gdx.graphics.getWidth(),
+                Gdx.graphics.getHeight());
         Image background = new Image(textureRegion);
         stage.addActor(background);
 
 
+        // Create button with basic skin
         createBasicSkin();
-        TextButton backButton = new TextButton("Get Jack to the top of the level as fast as possible!" + "\n" +
+        TextButton backButton = new TextButton("Get Jack to his parrot as fast as possible!" + "\n" +
                 " Avoid the spikes, they kill you." + "\n" +
-                " Roll your screen to the left or right to move, tap to jump!", skin);
+                " Roll your screen to the left or right to move, tap to jump!" + "\n" +
+                " Move the platforms by grabbing feathers of the same color" + "\n" + "\n" +
+                "touch text button to return", skin);
         backButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 ScreenManager.getInstance().showScreen(ScreenEnum.MAIN_MENU);
             }
         });
+
+        // Set the position and add to the stage
         backButton.setPosition(1, 600);
         stage.addActor(backButton);
 
@@ -113,5 +130,11 @@ public class HowToScreen extends AbstractScreen {
     @Override
     public void resume() {
     }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+    }
+
 
 }

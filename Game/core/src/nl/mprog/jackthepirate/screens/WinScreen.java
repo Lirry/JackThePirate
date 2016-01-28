@@ -21,15 +21,22 @@ import nl.mprog.jackthepirate.Tools.ScreenEnum;
 import nl.mprog.jackthepirate.Tools.ScreenManager;
 
 
-// The skin-building method comes from http://www.tempoparalelo.com/blog/?p=76
+/**
+ * Lirry Pinter
+ * 10565051
+ * lirry.pinter@gmail.com
+ *
+ * If Jack wins the game, the Winscreen offers the player a few buttons,
+ * either starting a new game or going back to the main-menu.
+ */
 
 
 public class WinScreen extends AbstractScreen{
 
     public Stage stage;
     public static Skin skin;
-    private Texture texture;
 
+    // Create a basic skin
     public void createBasicSkin(){
         //Create a font
         BitmapFont font = new BitmapFont();
@@ -59,23 +66,28 @@ public class WinScreen extends AbstractScreen{
     @Override
     public void show() {
 
+        // Create a stage
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);// Make the stage consume events
 
 
-        texture = new Texture("winbackground.png");
-        TextureRegion textureRegion = new TextureRegion(texture,Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        // Create texture for background
+        Texture texture = new Texture("winbackground.png");
+        TextureRegion textureRegion = new TextureRegion(texture,Gdx.graphics.getWidth(),
+                Gdx.graphics.getHeight());
         textureRegion.setRegionWidth(720);
         textureRegion.setRegionHeight(1280);
         Image background = new Image(textureRegion);
         stage.addActor(background);
 
+        // Create table
         Table table = new Table();
         table.center();
         table.setFillParent(true);
 
+        // Create buttons
         createBasicSkin();
-        TextButton newGameButton = new TextButton("  NEW GAME ", skin);
+        TextButton newGameButton = new TextButton("  PLAY AGAIN? ", skin);
         newGameButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -89,14 +101,18 @@ public class WinScreen extends AbstractScreen{
                 ScreenManager.getInstance().showScreen(ScreenEnum.MAIN_MENU);
             }
         });
-        newGameButton.setPosition(Gdx.graphics.getWidth()/2 - Gdx.graphics.getWidth()/8 , Gdx.graphics.getHeight()/2);
-        howToButton.setPosition(Gdx.graphics.getWidth()/2 - Gdx.graphics.getWidth()/8,(Gdx.graphics.getHeight()/2) -75);
+        newGameButton.setPosition(Gdx.graphics.getWidth()/2 - Gdx.graphics.getWidth()/8 ,
+                Gdx.graphics.getHeight()/2);
+        howToButton.setPosition(Gdx.graphics.getWidth()/2 - Gdx.graphics.getWidth()/8,
+                (Gdx.graphics.getHeight()/2) -75);
 
+        // Add buttons to table
         table.add(newGameButton);
         table.row();
         table.add(howToButton);
 
 
+        // Add table to stage
         stage.addActor(table);
 
 
@@ -115,10 +131,11 @@ public class WinScreen extends AbstractScreen{
 
     @Override
     public void render(float delta) {
+        // Clear the screen
         Gdx.gl.glClearColor(0, 1, 1, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-
+        // Draw stage
         stage.act();
         stage.draw();
 
@@ -127,6 +144,7 @@ public class WinScreen extends AbstractScreen{
 
     @Override
     public void resize(int width, int height) {
+        // Resize if necessary
         stage.getViewport().update(width, height, true);
 
     }
@@ -148,6 +166,7 @@ public class WinScreen extends AbstractScreen{
 
     @Override
     public void dispose() {
+        // Dispose data
         stage.dispose();
     }
 }

@@ -11,7 +11,13 @@ import com.badlogic.gdx.physics.box2d.World;
 
 import nl.mprog.jackthepirate.MainActivity;
 
-
+/**
+ * Lirry Pinter
+ * 10565051
+ * lirry.pinter@gmail.com
+ *
+ * The spike is defined using Box2D.
+ */
 
 public class Spike extends Sprite {
     public World world;
@@ -20,9 +26,14 @@ public class Spike extends Sprite {
 
 
     public Spike(World world){
+        // Place spike in world context
         this.world = world;
         defineSpike();
+
+        // Use png file for sprite
         spikeSprite = new Texture("beterespike.png");
+
+        // Set size
         setBounds(0, 0, 16/ MainActivity.PPM, 16/MainActivity.PPM);
         setRegion(spikeSprite);
     }
@@ -33,23 +44,28 @@ public class Spike extends Sprite {
 
 
     public void defineSpike(){
+        // Bodydefinition for collision
         BodyDef bdef = new BodyDef();
         PolygonShape shape = new PolygonShape();
         FixtureDef fdef = new FixtureDef();
 
+
+        // Verticles for triangular body shape
         float verticles[] = new float[]{
                 0, -0.5f,
                 0.2f, -0.5f,
                 0.05f, 0.5f
         };
 
-
+        // Position in world
         bdef.position.set(11, 1.5f);
+
+        // Set body for collision
         bdef.type = BodyDef.BodyType.StaticBody;
         shape.set(verticles);
         b2body = world.createBody(bdef);
 
-        // defining the shape of the sprite to interact with the ground
+        // Create shape using body and fixture definitions
         fdef.shape = shape;
         b2body.createFixture(fdef).setUserData("spike");
         b2body.createFixture(fdef);

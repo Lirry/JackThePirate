@@ -15,26 +15,27 @@ import nl.mprog.jackthepirate.MainActivity;
  * 10565051
  * lirry.pinter@gmail.com
  *
- * The blue platform is defined using Box2D.
+ * The spike is defined using Box2D.
  */
 
-public class PlatformBlue extends Sprite {
+
+public class SpikeTwo extends Sprite {
     public World world;
     public Body b2body;
-    public Texture platformSprite;
+    public Texture spikeSprite;
 
 
-    public PlatformBlue(World world){
-        // Place platform in world context
+    public SpikeTwo(World world){
+        // Place spike in world
         this.world = world;
-        definePlatform();
+        defineSpike();
 
-        // Use png file for sprite
-        platformSprite = new Texture("platform_blue.png");
+        // Use png file fot sprite
+        spikeSprite = new Texture("beterespike.png");
 
         // Set size
-        setBounds(0, 0, 40/ MainActivity.PPM, 12/MainActivity.PPM);
-        setRegion(platformSprite);
+        setBounds(0, 0, 16/ MainActivity.PPM, 16/MainActivity.PPM);
+        setRegion(spikeSprite);
     }
 
     public void update(float dt) {
@@ -42,23 +43,30 @@ public class PlatformBlue extends Sprite {
     }
 
 
-    public void definePlatform(){
+    public void defineSpike(){
         // Bodydefinition for collision
         BodyDef bdef = new BodyDef();
         PolygonShape shape = new PolygonShape();
         FixtureDef fdef = new FixtureDef();
 
-        // Position in world
-        bdef.position.set(2.5f, 16);
+        // Verticles for triangular body shape
+        float verticles[] = new float[]{
+                0, -0.5f,
+                0.2f, -0.5f,
+                0.05f, 0.5f
+        };
 
-        // Box shape for collision
-        bdef.type = BodyDef.BodyType.KinematicBody;
-        shape.setAsBox(1.25f, 0.45f);
+        // Position in world
+        bdef.position.set(10.5f, 1.5f);
+
+        // Set body for collision
+        bdef.type = BodyDef.BodyType.StaticBody;
+        shape.set(verticles);
         b2body = world.createBody(bdef);
 
-        // defining the shape of the sprite to interact with the ground
+        // Create shape using body and fixture definitions
         fdef.shape = shape;
-        b2body.createFixture(fdef).setUserData("platform_blue");
+        b2body.createFixture(fdef).setUserData("spike");
         b2body.createFixture(fdef);
     }
 }
