@@ -97,7 +97,7 @@ public class PlayScreen extends AbstractScreen implements Screen {
 
         // loading the map
         mapLoader = new TmxMapLoader();
-        map = mapLoader.load("level1revisedmetveer.tmx");
+        map = mapLoader.load("tiledmap_level.tmx");
         renderer = new OrthogonalTiledMapRenderer(map, unitScale);
 
         // loading gamecam

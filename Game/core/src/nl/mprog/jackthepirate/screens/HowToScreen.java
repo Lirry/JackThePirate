@@ -88,7 +88,7 @@ public class HowToScreen extends AbstractScreen {
         Gdx.input.setInputProcessor(stage);// Make the stage consume events
 
         // Creat a texture for background
-        Texture texture = new Texture("backgroundmenunieuw.png");
+        Texture texture = new Texture("menu_background.png");
         TextureRegion textureRegion = new TextureRegion(texture,Gdx.graphics.getWidth(),
                 Gdx.graphics.getHeight());
         Image background = new Image(textureRegion);

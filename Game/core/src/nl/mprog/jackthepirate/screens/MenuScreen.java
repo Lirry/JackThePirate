@@ -71,7 +71,7 @@ public class MenuScreen extends AbstractScreen{
 
 
         // Create a texture for the background, add to stage
-        Texture texture = new Texture("backgroundmenunieuw.png");
+        Texture texture = new Texture("menu_background.png");
         TextureRegion textureRegion = new TextureRegion(texture,Gdx.graphics.getWidth(),
                 Gdx.graphics.getHeight());
         textureRegion.setRegionWidth(720);

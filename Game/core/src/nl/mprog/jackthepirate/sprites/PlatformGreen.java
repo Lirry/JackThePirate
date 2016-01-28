@@ -31,7 +31,7 @@ public class PlatformGreen extends Sprite {
         definePlatform();
 
         // Use png file for sprite
-        platformSprite = new Texture("path4160.png");
+        platformSprite = new Texture("platform_green.png");
 
         // Set size
         setBounds(0, 0, 40/ MainActivity.PPM, 12/MainActivity.PPM);
