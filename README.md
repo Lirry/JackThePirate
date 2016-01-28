@@ -3,14 +3,19 @@
 Lirry Pinter
 10565051
 
-- Met deze game kan de gebruiker zijn eeuwige honger naar tijdsverdrijf op een leuke manier invullen, en zich begeven in de wonderlijke wereld van piraten. 
-In deze platformer (in 2D dus) ben je Jack the Pirate, een piraatje op je schip Tytanic. Zodra het level start, begint het schip met zinken. Aan jou om zo snel mogelijk naar boven te komen. Dit doe je door van mast naar mast te springen. De manier waarop dit gaat: een blauwe mast wordt pas geactiveerd als de piraat door het blauwe balletje springt. Dus vanaf dat moment kan Jack gebruik maken van deze mast. Zo moet de speler balletjes verzamelen om zo snel mogelijk omhoog te komen. Als de speler in het kraaiennest is is het level uitgespeeld.
+Jack the Pirate is een 2D platformer voor Android waarin een piraat(hoofd) die zijn papagaai kwijt is. Het doel is dan ook om je papagaai te vinden. De speler moet met de accelerometer en door op het scherm te tikken Jack besturen. Pak de veren om de platformen met dezelfde kleuren te laten bewegen! Kijk uit voor de spikes, want dan is het game-over. Jack the Pirate is gemaakt met de LibGDX engine voor cross-platform gamedeveloping. 
 
-![](doc/SketchUpdated.png)
+![](doc/Screenshot_2016-01-28-20-28-40.png) ![](doc/Screenshot_2016-01-28-20-30-09.png)
+![](doc/Screenshot_2016-01-28-20-29-26.png) ![](doc/Screenshot_2016-01-28-20-32-36.png) 
+. 
+### Installeren
+- Maak een kopie van de repository, en open het project in android studio. Exporteer voor android. Het spel kan ook gespeeld worden op de desktop. Zorg dan dat je in Android Studio met Desktop Launcher opent.
+- Lees: Alles moet gekopieerd worden, de LibGDX engine zet de assets namelijk in de /android folder terwijl de rest van de code in de /core folder zit.
 
--	Voor het maken van de sprites ga ik gebruikmaken van Inkscape of Adobe Illustrator. Voor andere data zie punt 5.
--	De game bestaat uit verschillende activities. In de main-activity kan er gekozen worden tussen levels,  highscores (in tijd), settings en exit. Voorlopig komen er vijf levels, als het lukt meer. 
--	Ik ga LibGDX gebruiken om de engine van deze game te maken. Dit is een open-source API die in Android Studio geimplementeerd kan worden.
--	Mijn grootste valkuil zal het maken van de sprites zijn. Ik wil gebruik maken van vector images. Omdat de design programmas hiervoor moeilijk onder de knie te krijgen zijn wordt dit een lastige zaak. 
--	Er zijn verschillende games met overeenkomsten. Doodlejump lijkt er erg veel op, alleen moet het beeldscherm bewogen worden en springt het mannetje constant. Het gevoel wat deze games de gemiddelde speler geven is voldoening. Dit is wat ik bij mijn game ook wil bereiken. 
+###Externe bronnen:
 
+- Kenney van http://kenney.nl/ (Game-art, (.tmx file))
+- Brent Aureli https://www.youtube.com/user/Profyx (Game-engine, (PlayScreen))
+- Gustavo Steigert http://steigert.blogspot.nl/2012/03/4-libgdx-tutorial-tablelayout.html (Menu lay-out, AbstractScreens)
+
+>This is a project for the final course of the [minor programming](http://www.mprog.nl/) at the University of Amsterdam. This product is licensed under [GNU Lesser General Public License V3.0](https://www.gnu.org/licenses/lgpl-3.0.en.html).<br>*Lirry Pinter - 10565051 - lirry.pinter@gmail.com*
